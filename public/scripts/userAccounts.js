@@ -1,5 +1,5 @@
-let $userName = $('#userName').val();
-let $userPass = $('#userPass').val();
+let $userName = $('#username').val();
+let $userPass = $('#password').val();
 
 function creatingUser() {
   let firebaseRef = firebase.database().ref();
@@ -8,7 +8,5 @@ function creatingUser() {
   console.log('test');
   console.log(JSON.stringify(firebaseRef));
 }
-
-
 
 export { creatingUser };

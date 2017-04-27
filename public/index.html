@@ -5,18 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Jikininki</title>
-  <script src="libs/system.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
-  <div id="test"></div>
-  <form action="#">
-     User:
-     <input id="userName" type="text">
-     Password:
-     <input id="userPass" type="password">
-     <input type="submit">
+  <div id="container">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            APP
+          </a>
+        </div>
+        <a href="#/login" class="btn btn-success navbar-btn">Log in</a>
+        <button type="button" class="btn btn-default navbar-btn">Sign up</button>
+      </div>
+    </nav>
 
-  </form>
+    <div id="main">
+    </div>
+
+    <footer class="container-fluid text-center">
+      <p>Footer Text</p>
+    </footer>
+  </div>
+  
 
 
   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
@@ -32,7 +45,7 @@
     };
     firebase.initializeApp(config);
   </script>
-  <script src="libs/system.js"></script>
-  <script src="scripts/system-config.js"></script>
+  <script src="../node_modules/systemjs/dist/system.js"></script>
+  <script src="./scripts/system-config.js"></script>
 </body>
 </html>

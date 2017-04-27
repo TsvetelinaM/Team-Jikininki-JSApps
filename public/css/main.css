@@ -1,0 +1,14 @@
+body {
+    margin: 20px;
+}
+
+.page-header {
+    background-color: cadetblue;
+    padding: 20px;
+    margin: 0px;
+}
+
+footer {
+    background-color: cadetblue;
+    padding: 20px;
+}
