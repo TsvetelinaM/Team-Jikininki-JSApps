@@ -2,8 +2,8 @@ System.config({
   transpiler: 'plugin-babel',
   map: {
     // System.js files
-   'plugin-babel': '../node_modules/systemjs-plugin-babel/plugin-babel.js',
-   'systemjs-babel-build': '../node_modules/systemjs-plugin-babel/systemjs-babel-browser.js',
+   'plugin-babel': 'libs/plugin-babel.js',
+   'systemjs-babel-build': 'libs/systemjs-babel-browser.js',
 
    // App files
    'main': 'scripts/main.js',
