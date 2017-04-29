@@ -16,6 +16,8 @@ System.config({
    'jquery': '../node_modules/jquery/dist/jquery.js',
    'handlebars': '../node_modules/handlebars/dist/handlebars.js',
    'sammy': '../node_modules/sammy/lib/sammy.js',
+   'cryptojs': '../node_modules/crypto-js/crypto-js.js',
+   'toastr': '../node_modules/toastr/toastr.js'
  }
 });
 

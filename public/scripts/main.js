@@ -1,5 +1,5 @@
 import 'jquery';
-import { creatingUser } from 'users';
+// import { creatingUser } from 'users';
 import Sammy from 'sammy';
 import * as homeController from 'homeController';
 import * as usersController from 'usersController';
@@ -17,7 +17,7 @@ import * as usersController from 'usersController';
 
     // Start application
     $(function() {
-        app.run('#/');                
+        app.run('#/');          
     });
 }());
 
