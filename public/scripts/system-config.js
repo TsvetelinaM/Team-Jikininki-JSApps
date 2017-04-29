@@ -10,10 +10,11 @@ System.config({
    'users': './scripts/userAccounts.js',
    'homeController': './controllers/home-controller.js',
    'usersController': './controllers/users-controller.js',
+   'templates': './scripts/templates.js',
 
    // Library files
    'jquery': '../node_modules/jquery/dist/jquery.js',
-   'handlebars': '../node_modules/handlebars/handlebars.amd.js',
+   'handlebars': '../node_modules/handlebars/dist/handlebars.js',
    'sammy': '../node_modules/sammy/lib/sammy.js',
  }
 });

@@ -1,5 +1,16 @@
+import * as templates from 'templates';
+
 function login(context) {
-    context.$element().html("LOGINPAGE");
+    templates.get('login').then(function(template) {
+        context.$element().html(template());
+    })
 }
 
-export { login };
+function signup(context) {
+    templates.get('signup').then(function(template) {
+        context.$element().html(template());
+    })
+}
+
+export { login }
+export { signup }

@@ -1,5 +1,9 @@
+import * as templates from 'templates';
+
 function all(context) {
-    context.$element().html("HOMEPAGE");
+    templates.get('home').then(function(template) {
+        context.$element().html(template());
+    })
 }
 
 export { all };
