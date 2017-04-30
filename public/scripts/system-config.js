@@ -7,10 +7,12 @@ System.config({
 
    // App files
    'main': './scripts/main.js',
-   'users': './scripts/userAccounts.js',
+   'users': './scripts/user-accounts.js',
    'homeController': './controllers/home-controller.js',
    'usersController': './controllers/users-controller.js',
    'templates': './scripts/templates.js',
+   'classUser': './models/User.js',
+   'classErrorDiv': './models/ErrorDiv.js',
 
    // Library files
    'jquery': '../node_modules/jquery/dist/jquery.js',
