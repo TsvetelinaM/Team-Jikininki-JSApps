@@ -11,6 +11,10 @@ System.config({
    'homeController': './controllers/home-controller.js',
    'usersController': './controllers/users-controller.js',
    'templates': './scripts/templates.js',
+   'validations': './scripts/input-validations.js',
+   'localStorage': './scripts/local-storage.js',
+
+   //models
    'classUser': './models/User.js',
    'classErrorDiv': './models/ErrorDiv.js',
 

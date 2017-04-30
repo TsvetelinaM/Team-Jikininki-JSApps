@@ -37,6 +37,20 @@ class User {
     set password(value) {
         this._password = value;
     }
+
+    add() {
+      firebase.database().ref('users').push(new User(this.fullname, this.username, this.email, this.password));
+      firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
+      let currentUser = firebase.auth().currentUser;
+      currentUser.updateProfile({
+          displayName: this.username
+        //  photoURL: "https://example.com/jane-q-user/profile.jpg"
+        }).then(function() {
+          console.log('success');
+        }, function(error) {
+          console.log('error');
+        });
+    }
 }
 
 export { User as default }

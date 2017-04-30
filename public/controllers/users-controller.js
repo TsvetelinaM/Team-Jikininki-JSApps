@@ -3,13 +3,46 @@ import CryptoJS from 'cryptojs';
 import User from 'classUser'
 import toastr from 'toastr';
 import ErrorDiv from 'classErrorDiv';
+import validations from 'validations';
+import {localStorageUsers} from 'localStorage';
+
 
 function login(context) {
     templates.get('login').then(function(template) {
         context.$element().html(template());
 
         $('#btn-login').on('click', function() {
+            let currentUser = {};
             // TODO check input info and log in if it is correct
+            let password = $('#password').val();
+            let email = $('#email').val();
+            //fields validation
+            validations.allFieldsRequired(password, email);
+
+
+            //mail validation
+            validations.mailValidation(email);
+
+            //current user signOut
+            firebase.auth().signOut();
+
+            //user log in:
+            firebase.auth().signInWithEmailAndPassword(email,password);
+            currentUser = firebase.auth().currentUser;
+            //redirect to user home page:
+            console.log(currentUser.email);
+
+            //TODO LOCALStorage
+            //localStorageUsers(currentUser);
+            //alert('Hello, '+localStorage.username);
+
+            templates.get('home').then(function(template) {
+                context.$element().html(template());
+                context.redirect('#/');
+              });
+
+
+            return;
         });
     });
 }
@@ -21,43 +54,39 @@ function signup(context) {
         $("#btn-signup").on('click', function() {
             let password = $('#password').val();
             let confirmedPassword = $('#confirmPassword').val();
+            let fullname = $('#fullname').val();
+            let username = $('#username').val();
+            let email = $('#email').val();
+            //let passHash = CryptoJS.SHA1(password).toString();
+            let passHash = password;
 
-            //User validation
-            if ($('#fullname').val().length>0 && $('#username').val().length>0) {
+
+            //fields validation
+            validations.allFieldsRequired(fullname, username, email, passHash);
+
             //password validation
-            if(password === confirmedPassword) {
-                let fullname = $('#fullname').val();
-                let username = $('#username').val();
-                let email = $('#email').val();
-                let passHash = CryptoJS.SHA1(password).toString();
+            validations.passwordCheck(password, confirmedPassword);
 
-                //mail validation
-                let emailREG = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                let validEMail = emailREG.test(email);
-                if (validEMail) {
-                  let user = new User(fullname, username, email, passHash);
-                  console.log(JSON.stringify(user));
+            //mail validation
+            validations.mailValidation(email);
+
+            //creating the user object
+            let user = new User(fullname, username, email, passHash);
+            console.log(JSON.stringify(user));
+
+            //add user to the DB
+            user.add();
 
 
-                  //TODO check if user exists by email
+            //TODO check if user exists by email
 
-                  //Saving user in the Firebase DB
-                  let firebaseRef = firebase.database().ref('users');
-                  firebaseRef.push(user);
-                  
-                } else {
-                 let errorMessage = new ErrorDiv('Not a valid email.');
-                 toastr.error("Not a valid email.");
-                }
+            //Saving user in the Firebase DB
+            //firebase.database().ref('users/' + username).set(user);
+            // firebase.database().ref('users').push(user);
+            // firebase.auth().createUserWithEmailAndPassword(email, passHash);
 
-            } else {
-                // TODO Show a pop up for different password and reload the form
-                toastr.error("Passwords must match.");
-            }
-          } else {
-            let errorMessage = new ErrorDiv('Please enter username and fullname');
-            toastr.error('Please enter username and fullname');
-          }
+
+
         });
     });
 }
