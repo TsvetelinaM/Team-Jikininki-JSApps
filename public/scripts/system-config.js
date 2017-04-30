@@ -17,6 +17,11 @@ System.config({
    //models
    'classUser': './models/User.js',
    'classErrorDiv': './models/ErrorDiv.js',
+   'classCategory': './models/Category.js',
+   'classList': './models/List.js',
+   'classItem': './models/Item.js',
+   'classProductItem': './models/ProductItem.js',
+   'classTaskItem': './models/TaskItem.js',
 
    // Library files
    'jquery': '../node_modules/jquery/dist/jquery.js',

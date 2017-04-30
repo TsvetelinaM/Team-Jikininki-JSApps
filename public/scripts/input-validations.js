@@ -4,7 +4,7 @@ import ErrorDiv from 'classErrorDiv';
 
 let validations = {
        allFieldsRequired (...items) {
-         let errorMessage;
+        let errorMessage;
         if (items.some(item =>item.length<1)) {
             alert('All fields should be completed');
             errorMessage = new ErrorDiv('All fields should be completed');

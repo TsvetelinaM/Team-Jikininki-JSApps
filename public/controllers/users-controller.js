@@ -41,7 +41,6 @@ function login(context) {
                 context.redirect('#/');
               });
 
-
             return;
         });
     });
@@ -60,7 +59,6 @@ function signup(context) {
             //let passHash = CryptoJS.SHA1(password).toString();
             let passHash = password;
 
-
             //fields validation
             validations.allFieldsRequired(fullname, username, email, passHash);
 
@@ -77,16 +75,12 @@ function signup(context) {
             //add user to the DB
             user.add();
 
-
             //TODO check if user exists by email
 
             //Saving user in the Firebase DB
             //firebase.database().ref('users/' + username).set(user);
             // firebase.database().ref('users').push(user);
             // firebase.auth().createUserWithEmailAndPassword(email, passHash);
-
-
-
         });
     });
 }

@@ -1,5 +1,3 @@
-
-
 function localStorageUsers(currentUser) {
   //getting data from the firebase:
   let database = firebase.database().ref('users');
