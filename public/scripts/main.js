@@ -26,19 +26,13 @@ import * as usersController from 'usersController';
                 // User is signed in.
                 console.log(user);
                 $('#log-buttons').addClass('hidden');
+                $('#btn-signout').removeClass('hidden');
             } else {
                 // No user is signed in.
+                $('#btn-signout').addClass('hidden');
                 $('#log-buttons').removeClass('hidden');
             }
         });
-
-        // let user = firebase.auth().currentUser;
-        // if (user) {
-        //     console.log("logged");
-        //     $('#log-buttons').children().addClass('hidden');
-        // } else {
-        //     $('#log-buttons').removeClass('hidden');
-        // }
     });
 } ());
 
