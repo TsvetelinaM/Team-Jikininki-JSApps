@@ -39,7 +39,6 @@ import * as usersController from 'usersController';
         // } else {
         //     $('#log-buttons').removeClass('hidden');
         // }
-
     });
 } ());
 

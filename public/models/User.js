@@ -4,6 +4,7 @@ class User {
         this.username = username;
         this.email = email;
         this.password = password;
+        this._lists = [];
     }
 
     get fullname() {
@@ -36,6 +37,14 @@ class User {
 
     set password(value) {
         this._password = value;
+    }
+
+    get lists() {
+        return this._lists.slice();
+    }
+
+    addList(list) {
+        this._lists.push(list);
     }
 
     add() {

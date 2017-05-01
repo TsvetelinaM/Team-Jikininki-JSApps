@@ -3,6 +3,7 @@ class List {
         this.title = title;
         this.description = description;
         this.category = category;
+        this._items = [];
     }
 
     get title() {
@@ -27,6 +28,14 @@ class List {
 
     set category(value) {
         this._category = value;
+    }
+
+    get items() {
+        return this._items.slice();
+    }
+
+    addItem(item) {
+        this._items.push(item);
     }
 }
 
