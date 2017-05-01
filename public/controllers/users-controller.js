@@ -4,14 +4,14 @@ import User from 'classUser'
 import toastr from 'toastr';
 import ErrorDiv from 'classErrorDiv';
 import validations from 'validations';
-import {localStorageUsers} from 'localStorage';
+import { localStorageUsers } from 'localStorage';
 
 
 function login(context) {
-    templates.get('login').then(function(template) {
+    templates.get('login').then(function (template) {
         context.$element().html(template());
 
-        $('#btn-login').on('click', function() {
+        $('#btn-login').on('click', function () {
             let currentUser = {};
             // TODO check input info and log in if it is correct
             let password = $('#password').val();
@@ -24,22 +24,19 @@ function login(context) {
             validations.mailValidation(email);
 
             //current user signOut
-            firebase.auth().signOut();
+            // firebase.auth().signOut();
 
             //user log in:
-            firebase.auth().signInWithEmailAndPassword(email,password);
+            firebase.auth().signInWithEmailAndPassword(email, password);
             currentUser = firebase.auth().currentUser;
             //redirect to user home page:
-            console.log(currentUser.email);
+            // console.log(currentUser); // TODO here user is null
 
             //TODO LOCALStorage
             //localStorageUsers(currentUser);
             //alert('Hello, '+localStorage.username);
 
-            templates.get('home').then(function(template) {
-                context.$element().html(template());
-                context.redirect('#/');
-              });
+            context.redirect('#/dashboard');
 
             return;
         });
@@ -47,10 +44,10 @@ function login(context) {
 }
 
 function signup(context) {
-    templates.get('signup').then(function(template) {
+    templates.get('signup').then(function (template) {
         context.$element().html(template());
 
-        $("#btn-signup").on('click', function() {
+        $("#btn-signup").on('click', function () {
             let password = $('#password').val();
             let confirmedPassword = $('#confirmPassword').val();
             let fullname = $('#fullname').val();
@@ -85,4 +82,24 @@ function signup(context) {
     });
 }
 
-export { login, signup };
+function signOut(context) {
+    firebase.auth().signOut()
+        .then(function () {
+            context.redirect('#/');
+            toastr.success("User succesfully signed out.");
+        }).catch(function (error) {
+            // TODO handle the error
+        })
+}
+
+function showDashboard(context) {
+    templates.get('user-dashboard').then(function (template) {
+        context.$element().html(template());
+
+        $('#btn-signout').on('click', function (event) {
+            signOut(context);
+        });
+    });
+}
+
+export { login, signup, signOut, showDashboard };
