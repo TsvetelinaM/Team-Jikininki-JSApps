@@ -87,6 +87,7 @@ function signOut() {
         .then(function () {
             location.hash = '#/';
             location.reload();
+
             toastr.success("User succesfully signed out.");
         }).catch(function (error) {
             // TODO handle the error
@@ -96,6 +97,11 @@ function signOut() {
 function showDashboard(context) {
     templates.get('user-dashboard').then(function (template) {
         context.$element().html(template());
+        $(document).ready(function(){
+          $('[data-toggle="offcanvas"]').click(function(){
+          $("#navigation").toggleClass("hidden-xs");
+         });
+      });
     });
 }
 
