@@ -82,10 +82,11 @@ function signup(context) {
     });
 }
 
-function signOut(context) {
+function signOut() {
     firebase.auth().signOut()
         .then(function () {
-            context.redirect('#/');
+            location.hash = '#/';
+            location.reload();
             toastr.success("User succesfully signed out.");
         }).catch(function (error) {
             // TODO handle the error
@@ -95,10 +96,6 @@ function signOut(context) {
 function showDashboard(context) {
     templates.get('user-dashboard').then(function (template) {
         context.$element().html(template());
-
-        $('#btn-signout').on('click', function (event) {
-            signOut(context);
-        });
     });
 }
 
