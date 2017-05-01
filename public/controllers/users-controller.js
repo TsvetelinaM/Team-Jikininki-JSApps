@@ -33,8 +33,8 @@ function login(context) {
             // console.log(currentUser); // TODO here user is null
 
             //TODO LOCALStorage
-            //localStorageUsers(currentUser);
-            //alert('Hello, '+localStorage.username);
+            localStorageUsers();
+            alert('Hello, '+localStorage.username);
 
             context.redirect('#/dashboard');
 

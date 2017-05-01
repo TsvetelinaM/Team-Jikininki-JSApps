@@ -1,4 +1,4 @@
-function localStorageUsers(currentUser) {
+function localStorageUsers() {
   //getting data from the firebase:
   let database = firebase.database().ref('users');
   database.on('value', gotData, errData);
@@ -6,13 +6,14 @@ function localStorageUsers(currentUser) {
   function gotData(data) {
     let usersInFirebase = data.val();
     let keys = Object.keys(usersInFirebase);
+    let currentUser = firebase.auth().currentUser;
 
     for (let key in usersInFirebase) {
-      //console.log(usersInFirebase[key]);
+      console.log(usersInFirebase[key]);
       for (let innerKey in usersInFirebase[key]) {
         if (innerKey==='_email') {
           if(usersInFirebase[key][innerKey] === currentUser.email) {
-            localStorage.setItem('username', usersInFirebase[key][_username]);
+            localStorage.setItem('username', usersInFirebase[key]['_username']);
           }
         }
       }
