@@ -23,14 +23,9 @@ function login(context) {
             //mail validation
             validations.mailValidation(email);
 
-            //current user signOut
-            // firebase.auth().signOut();
-
             //user log in:
             firebase.auth().signInWithEmailAndPassword(email, password);
             currentUser = firebase.auth().currentUser;
-            //redirect to user home page:
-            // console.log(currentUser); // TODO here user is null
 
             //TODO LOCALStorage
             localStorageUsers();
@@ -89,14 +84,23 @@ function signOut() {
 
 function showDashboard(context) {
     templates.get('user-dashboard').then(function (template) {
-        var userInfo = { username: localStorage.username };
-        context.$element().html(template(userInfo));
-        
-        // let databaseRef = firebase.database().ref('lists/' + localStorage.username);
-        // databaseRef.on('value', function(data) {
-        //     let lists = data.val();
-        //     lists.forEach(list => console.log(list._title));
-        // });
+        let listTitles = [];
+
+        let databaseRef = firebase.database().ref('lists/' + localStorage.username);
+        databaseRef.once('value')
+            .then(function (data) {
+                let resultlists = data.val();
+                let keys = Object.keys(resultlists);
+                keys.forEach(key => {
+                    let list = resultlists[key];
+                    listTitles.push(list._title);
+                });
+            })
+            .then(function () {
+                let userInfo = { username: localStorage.username, listTitles: listTitles };
+                context.$element().html(template(userInfo));
+            });
+
 
     });
 }

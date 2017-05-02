@@ -8,11 +8,13 @@
             </div>
             <div class="navi">
                 <ul>
-                    <li><a href="#"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Today</span></a></li>
-                    <li class="active"><a href="#"><i class="glyphicon glyphicon-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Home</span></a></li>
+                    {{#each listTitles}}
+                        <li><a href="#"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{this}}</span></a></li>
+                    {{/each}}
+                    {{!--<li class="active"><a href="#"><i class="glyphicon glyphicon-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Home</span></a></li>
                     <li><a href="#"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Work</span></a></li>
                     <li><a href="#"><i class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Groceries</span></a></li>
-                    <li><a href="#"><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Settings</span></a></li>
+                    <li><a href="#"><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Settings</span></a></li>--}}
                 </ul>
             </div>
         </div>
