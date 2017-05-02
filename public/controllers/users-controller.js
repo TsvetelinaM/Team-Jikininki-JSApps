@@ -19,7 +19,6 @@ function login(context) {
             //fields validation
             validations.allFieldsRequired(password, email);
 
-
             //mail validation
             validations.mailValidation(email);
 
@@ -93,11 +92,11 @@ function showDashboard(context) {
                 let keys = Object.keys(resultlists);
                 keys.forEach(key => {
                     let list = resultlists[key];
-                    listTitles.push(list._title);
+                    listTitles.push({ key: key, title: list._title});
                 });
             })
             .then(function () {
-                let userInfo = { username: localStorage.username, listTitles: listTitles };
+                let userInfo = { username: localStorage.username, lists: listTitles };
                 context.$element().html(template(userInfo));
             });
 
