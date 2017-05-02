@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Pocket Book</title>
-  <link rel="shortcut icon" href="./to-do-list.ico"/>
+  <link rel="shortcut icon" href="./to-do-list.ico" />
 
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="../node_modules/toastr/build/toastr.css">
   <link rel="stylesheet" href="./css/main.css">
   <link rel="stylesheet" href="./css/dashboard.css">
 </head>
+
 <body>
   <div id="container">
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header col-lg-8">
-          <a class="navbar-brand" href="#/">
+    <div id="header">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header col-lg-8">
+            <a class="navbar-brand" href="#/">
             Pocket Book
           </a>
+          </div>
+          <button id="btn-signout" class="btn btn-danger navbar-right hidden btn-md">Sign out</button>
+          <div class="navbar-right" id="log-buttons">
+            <a href="#/login" id="" class="btn btn-success navbar-btn btn-md">Log in</a>
+            <a href="#/signup" class="btn btn-default navbar-btn btn-md">Sign up</a>
+          </div>
         </div>
-        <button id="btn-signout" class="btn btn-danger navbar-right hidden btn-md">Sign out</button>
-        <div class="navbar-right" id="log-buttons">
-          <a href="#/login" id="" class="btn btn-success navbar-btn btn-md">Log in</a>
-          <a href="#/signup" class="btn btn-default navbar-btn btn-md">Sign up</a>
-        </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div id="main">
     </div>
 
-    <footer class="container-fluid text-center">
+    <div id="footer" class="container-fluid text-center">
       <h3>FOOTER</h3>
-    </footer>
+    </div>
   </div>
 
 
@@ -52,7 +56,8 @@
     };
     firebase.initializeApp(config);
   </script>
-  <script src="../node_modules/systemjs/dist/system.js"></script>
-  <script src="./scripts/system-config.js"></script>
+<script src="../node_modules/systemjs/dist/system.js"></script>
+<script src="./scripts/system-config.js"></script>
 </body>
+
 </html>

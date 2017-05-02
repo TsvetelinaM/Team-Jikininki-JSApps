@@ -4,15 +4,16 @@ import User from 'classUser'
 import toastr from 'toastr';
 import ErrorDiv from 'classErrorDiv';
 import validations from 'validations';
-import { localStorageUsers } from 'localStorage';
+import { setLocalStorage } from 'localStorage';
 import { addList } from 'test';
+import * as usersController from 'usersController';
 
 function login(context) {
     templates.get('login').then(function (template) {
         context.$element().html(template());
 
         $('#btn-login').on('click', function () {
-            let currentUser = {};
+            let currentUser;
             // TODO check input info and log in if it is correct
             let password = $('#password').val();
             let email = $('#email').val();
@@ -23,15 +24,13 @@ function login(context) {
             validations.mailValidation(email);
 
             //user log in:
-            firebase.auth().signInWithEmailAndPassword(email, password);
-            currentUser = firebase.auth().currentUser;
-
-            //TODO LOCALStorage
-            localStorageUsers();
-
-            context.redirect('#/dashboard');
-
-            return;
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(function(user) {
+                setLocalStorage(user.displayName);
+                context.redirect('#/dashboard');
+                
+                // location.reload();
+            });
         });
     });
 }
@@ -92,14 +91,18 @@ function showDashboard(context) {
                 let keys = Object.keys(resultlists);
                 keys.forEach(key => {
                     let list = resultlists[key];
-                    listTitles.push({ key: key, title: list._title});
+                    listTitles.push({ key: key, title: list._title });
                 });
             })
             .then(function () {
                 let userInfo = { username: localStorage.username, lists: listTitles };
                 context.$element().html(template(userInfo));
-            });
 
+                $('#btn-signout').removeClass('hidden');
+                $('#btn-signout').on('click', function (event) {
+                    usersController.signOut();
+                });
+            });
 
     });
 }

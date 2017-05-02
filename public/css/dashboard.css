@@ -460,6 +460,10 @@ header {
     text-shadow: none;
 }
 
+#main-board {
+    background-image: url("./hip-square.png");
+}
+
 /*Main CSS*/
 
 @media only screen and (max-device-width: 767px) {

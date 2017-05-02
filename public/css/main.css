@@ -1,12 +1,26 @@
+html, body {
+    height: 100%;
+    margin: 0px;
+}
+
+#container {
+    height: 100%;
+}
+
 .page-header {
     background-color: cadetblue;
     padding: 20px;
     margin: 0px;
 }
 
-footer {
+#footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
     background-color: cadetblue;
-    padding: 20px;
+    text-align: center;
 }
 
 #btn-signout {

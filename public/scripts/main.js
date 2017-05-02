@@ -26,10 +26,6 @@ import * as usersController from 'usersController';
 
                 console.log(user);
                 $('#log-buttons').addClass('hidden');
-                $('#btn-signout').removeClass('hidden');
-                $('#btn-signout').on('click', function (event) {
-                    usersController.signOut();
-                });
             } else {
                 // No user is signed in.
                 app.run('#/');

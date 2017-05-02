@@ -39,7 +39,6 @@ class User {
     }
 
     add() {
-
         let newUser = new Promise((resolve) => {
             firebase.database().ref('users').push(new User(this.fullname, this.username, this.email, this.password));
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
