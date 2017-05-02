@@ -7,12 +7,15 @@ System.config({
 
    // App files
    'main': './scripts/main.js',
-   'users': './scripts/user-accounts.js',
    'homeController': './controllers/home-controller.js',
    'usersController': './controllers/users-controller.js',
    'templates': './scripts/templates.js',
    'validations': './scripts/input-validations.js',
    'localStorage': './scripts/local-storage.js',
+
+   //for tests only
+   'test': './scripts/test.js',
+
 
    //models
    'classUser': './models/User.js',

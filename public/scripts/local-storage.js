@@ -8,17 +8,21 @@ function localStorageUsers() {
     let keys = Object.keys(usersInFirebase);
     let currentUser = firebase.auth().currentUser;
 
-    for (let key in usersInFirebase) {
-      console.log(usersInFirebase[key]);
-      for (let innerKey in usersInFirebase[key]) {
-        if (innerKey==='_email') {
-          if(usersInFirebase[key][innerKey] === currentUser.email) {
-            localStorage.setItem('username', usersInFirebase[key]['_username']);
-          }
-        }
-      }
-      console.log(localStorage.username);
-    }
+    //finding data in the users array
+    // for (let key in usersInFirebase) {
+    //   for (let innerKey in usersInFirebase[key]) {
+    //     if (innerKey==='_email') {
+    //       if(usersInFirebase[key][innerKey] === currentUser.email) {
+    //         console.log(usersInFirebase[key]['_username']);
+    //         console.log(localStorage.username);
+    //         localStorage.setItem('username', usersInFirebase[key]['_username']);
+    //       }
+    //     }
+    //   }
+    // }
+
+    localStorage.setItem('username', currentUser.displayName);
+    console.log(localStorage.username);
   };
 
   function errData(err) {

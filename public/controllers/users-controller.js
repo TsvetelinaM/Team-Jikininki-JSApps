@@ -5,7 +5,7 @@ import toastr from 'toastr';
 import ErrorDiv from 'classErrorDiv';
 import validations from 'validations';
 import { localStorageUsers } from 'localStorage';
-
+import { addList } from 'test';
 
 function login(context) {
     templates.get('login').then(function (template) {
@@ -34,7 +34,6 @@ function login(context) {
 
             //TODO LOCALStorage
             localStorageUsers();
-            alert('Hello, '+localStorage.username);
 
             context.redirect('#/dashboard');
 
@@ -83,6 +82,7 @@ function signup(context) {
 }
 
 function signOut() {
+    localStorage.clear();
     firebase.auth().signOut()
         .then(function () {
             location.hash = '#/';
@@ -102,6 +102,9 @@ function showDashboard(context) {
           $("#navigation").toggleClass("hidden-xs");
          });
       });
+
+      addList();
+
     });
 }
 

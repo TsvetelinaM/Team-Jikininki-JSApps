@@ -48,9 +48,27 @@ class User {
     }
 
     add() {
-      firebase.database().ref('users').push(new User(this.fullname, this.username, this.email, this.password));
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
-    //   let currentUser = firebase.auth().currentUser;
+
+      let newUser = new Promise((resolve) => {
+        firebase.database().ref('users').push(new User(this.fullname, this.username, this.email, this.password));
+        firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
+
+        setTimeout(function() {
+          resolve(firebase.auth().currentUser);
+        },2000);
+      });
+
+        newUser.then((currentUser) =>{
+          currentUser.updateProfile({
+           displayName: this.username
+         }).then(function() {
+               console.log(firebase.auth().currentUser.displayName);
+             }, function(error) {
+               console.log('error');
+           });
+        });
+
+      //   let currentUser = firebase.auth().currentUser;
     //   currentUser.updateProfile({
     //       displayName: this.username
     //     //  photoURL: "https://example.com/jane-q-user/profile.jpg"
