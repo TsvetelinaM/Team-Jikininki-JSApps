@@ -19,11 +19,11 @@ import * as usersController from 'usersController';
 
     // Start application
     $(function () {
-        app.run('#/');
-
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 // User is signed in.
+                app.run('#/dashboard');
+
                 console.log(user);
                 $('#log-buttons').addClass('hidden');
                 $('#btn-signout').removeClass('hidden');
@@ -32,6 +32,8 @@ import * as usersController from 'usersController';
                 });
             } else {
                 // No user is signed in.
+                app.run('#/');
+                
                 $('#btn-signout').addClass('hidden');
                 $('#log-buttons').removeClass('hidden');
             }

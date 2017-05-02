@@ -44,7 +44,10 @@ class User {
     }
 
     addList(list) {
-        this._lists.push(list);
+        // TODO
+        if(list) {
+            this._lists.push(list);
+        }
     }
 
     add() {

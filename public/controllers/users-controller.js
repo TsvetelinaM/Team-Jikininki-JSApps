@@ -70,13 +70,6 @@ function signup(context) {
 
             //add user to the DB
             user.add();
-
-            //TODO check if user exists by email
-
-            //Saving user in the Firebase DB
-            //firebase.database().ref('users/' + username).set(user);
-            // firebase.database().ref('users').push(user);
-            // firebase.auth().createUserWithEmailAndPassword(email, passHash);
         });
     });
 }
@@ -98,13 +91,12 @@ function showDashboard(context) {
     templates.get('user-dashboard').then(function (template) {
         var userInfo = { username: localStorage.username };
         context.$element().html(template(userInfo));
-        $(document).ready(function(){
-          $('[data-toggle="offcanvas"]').click(function(){
-          $("#navigation").toggleClass("hidden-xs");
-         });
-      });
-
-      addList();
+        
+        // let databaseRef = firebase.database().ref('lists/' + localStorage.username);
+        // databaseRef.on('value', function(data) {
+        //     let lists = data.val();
+        //     lists.forEach(list => console.log(list._title));
+        // });
 
     });
 }
