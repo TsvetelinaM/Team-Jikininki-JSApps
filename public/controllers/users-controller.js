@@ -96,7 +96,8 @@ function signOut() {
 
 function showDashboard(context) {
     templates.get('user-dashboard').then(function (template) {
-        context.$element().html(template());
+        var userInfo = { username: localStorage.username };
+        context.$element().html(template(userInfo));
         $(document).ready(function(){
           $('[data-toggle="offcanvas"]').click(function(){
           $("#navigation").toggleClass("hidden-xs");

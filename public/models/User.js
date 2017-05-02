@@ -49,34 +49,24 @@ class User {
 
     add() {
 
-      let newUser = new Promise((resolve) => {
-        firebase.database().ref('users').push(new User(this.fullname, this.username, this.email, this.password));
-        firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
+        let newUser = new Promise((resolve) => {
+            firebase.database().ref('users').push(new User(this.fullname, this.username, this.email, this.password));
+            firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
 
-        setTimeout(function() {
-          resolve(firebase.auth().currentUser);
-        },2000);
-      });
-
-        newUser.then((currentUser) =>{
-          currentUser.updateProfile({
-           displayName: this.username
-         }).then(function() {
-               console.log(firebase.auth().currentUser.displayName);
-             }, function(error) {
-               console.log('error');
-           });
+            setTimeout(function () {
+                resolve(firebase.auth().currentUser);
+            }, 2000);
         });
 
-      //   let currentUser = firebase.auth().currentUser;
-    //   currentUser.updateProfile({
-    //       displayName: this.username
-    //     //  photoURL: "https://example.com/jane-q-user/profile.jpg"
-    //     }).then(function() {
-    //       console.log('success');
-    //     }, function(error) {
-    //       console.log('error');
-    //   });
+        newUser.then((currentUser) => {
+            currentUser.updateProfile({
+                displayName: this.username
+            }).then(function () {
+                console.log(firebase.auth().currentUser.displayName);
+            }, function (error) {
+                console.log('error');
+            });
+        });
     }
 }
 
