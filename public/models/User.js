@@ -57,6 +57,8 @@ class User {
                 console.log('error');
             });
         });
+
+      firebase.auth().signOut();
     }
 }
 

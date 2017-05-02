@@ -17,6 +17,7 @@ function login(context) {
             // TODO check input info and log in if it is correct
             let password = $('#password').val();
             let email = $('#email').val();
+            console.log(password);
             //fields validation
             validations.allFieldsRequired(password, email);
 
@@ -28,7 +29,7 @@ function login(context) {
             .then(function(user) {
                 setLocalStorage(user.displayName);
                 context.redirect('#/dashboard');
-                
+
                 // location.reload();
             });
         });
@@ -98,10 +99,7 @@ function showDashboard(context) {
                 let userInfo = { username: localStorage.username, lists: listTitles };
                 context.$element().html(template(userInfo));
 
-                $('#btn-signout').removeClass('hidden');
-                $('#btn-signout').on('click', function (event) {
-                    usersController.signOut();
-                });
+                
             });
 
     });
