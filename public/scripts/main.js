@@ -1,5 +1,4 @@
 import 'jquery';
-// import { creatingUser } from 'users';
 import Sammy from 'sammy';
 import * as homeController from 'homeController';
 import * as usersController from 'usersController';
@@ -22,6 +21,7 @@ import * as usersController from 'usersController';
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 // User is signed in.
+                var screen = usersController.loadingScreen();
                 app.run('#/dashboard');
 
                 console.log(user);
@@ -30,15 +30,16 @@ import * as usersController from 'usersController';
                 $('#btn-signout').on('click', function (event) {
                     usersController.signOut();
                 });
+                screen.finish();
             } else {
                 // No user is signed in.
+                var screen = usersController.loadingScreen();
                 app.run('#/');
-
+                
                 $('#btn-signout').addClass('hidden');
                 $('#log-buttons').removeClass('hidden');
+                screen.finish();
             }
         });
     });
 } ());
-
-// creatingUser();

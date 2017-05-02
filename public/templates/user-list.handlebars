@@ -1,0 +1,60 @@
+<div class="container-fluid display-table">
+    <div class="row display-table-row">
+        <div class="col-md-3 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
+            <div class="logo">
+                <a hef="#/">
+                    Hello, {{username}}!
+                </a>
+            </div>
+            <div class="navi">
+                <ul>
+                    {{#each lists}}
+                    <li class="list-title"><a href="#"><i class="{{this.glyphicon}}" aria-hidden="true"></i><span data-atribute="{{this.key}}" class="hidden-xs hidden-sm">{{this.title}}</span></a></li>
+                    {{/each}}
+                    <li><a href="#"><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Edit profile</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-11 display-table-cell v-align" id="main-board">
+            <div class="row">
+                <header>
+                    <div class="col-md-6">
+                        <div class="add-item hidden-xs hidden-sm">
+                            <input class="col-md-10" type="text" placeholder="Add item" id="input-add">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-success btn-lg"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add</button>
+                    </div>
+                </header>
+            </div>
+            <div class="user-dashboard">
+                <h1>{{title}}</h1>
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xs-12 gutter">
+                        <ul>
+                            {{#if items}} {{#each items}}
+                            <li>
+                                {{#if this.checked}}
+                                <div class="item line-through">
+                                    <h2>{{this.title}} <input type="checkbox" checked="checked" /> <span class="glyphicon glyphicon-trash"
+                                            aria-hidden="true"></span> </h2>
+                                    </h2>
+                                </div>
+                                {{else}}
+                                <div class="item">
+                                    <h2>{{this.title}} <input type="checkbox" /> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>                                        </h2>
+                                    </h2>
+                                </div>
+                                {{/if}}
+                            </li>
+                            {{/each}} {{else}}
+                            <div>No items added to this list</div>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

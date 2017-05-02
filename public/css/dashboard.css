@@ -367,7 +367,7 @@ header {
 
 .navi .active a {
     background: cadetblue;
-    border-left: 5px solid #5584ff;
+    border-left: 5px solid springgreen;
     padding-left: 15px;
 }
 
@@ -418,6 +418,7 @@ header {
     font-weight: 500;
     margin: 0;
     padding: 21px 0;
+    text-decoration: underline;
 }
 .sales {
     background: #ffffff none repeat scroll 0 0;
@@ -464,6 +465,9 @@ header {
     background-image: url("./hip-square.png");
 }
 
+.line-through {
+    text-decoration: line-through;
+}
 /*Main CSS*/
 
 @media only screen and (max-device-width: 767px) {

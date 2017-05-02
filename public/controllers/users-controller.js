@@ -17,7 +17,6 @@ function login(context) {
             // TODO check input info and log in if it is correct
             let password = $('#password').val();
             let email = $('#email').val();
-            console.log(password);
             //fields validation
             validations.allFieldsRequired(password, email);
 
@@ -26,12 +25,12 @@ function login(context) {
 
             //user log in:
             firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(function(user) {
-                setLocalStorage(user.displayName);
-                context.redirect('#/dashboard');
+                .then(function (user) {
+                    setLocalStorage(user.displayName);
+                    context.redirect('#/dashboard');
 
-                // location.reload();
-            });
+                    // location.reload();
+                });
         });
     });
 }
@@ -81,10 +80,19 @@ function signOut() {
         })
 }
 
-function showDashboard(context) {
-    templates.get('user-dashboard').then(function (template) {
-        let listTitles = [];
+function loadingScreen() {
+    window.loading_screen = window.pleaseWait({
+        logo: './css/trans-logo.png',
+        backgroundColor: '#5f9ea0',
+        loadingHtml: '<div class="spinner"></div>'
+    });
+    return window.loading_screen;
+}
 
+function showDashboard(context) {
+    let userInfo = {};
+    let lists = [];
+    templates.get('user-dashboard').then(function (template) {
         let databaseRef = firebase.database().ref('lists/' + localStorage.username);
         databaseRef.once('value')
             .then(function (data) {
@@ -92,17 +100,30 @@ function showDashboard(context) {
                 let keys = Object.keys(resultlists);
                 keys.forEach(key => {
                     let list = resultlists[key];
-                    listTitles.push({ key: key, title: list._title });
+                    lists.push({ key: key, title: list._title, glyphicon: list._glyphicon});
                 });
             })
             .then(function () {
-                let userInfo = { username: localStorage.username, lists: listTitles };
+                userInfo = { username: localStorage.username, lists: lists };
                 context.$element().html(template(userInfo));
-
-                
+            })
+            .then(function() {
+                $('.list-title').on('click', function(event) {
+                    event.preventDefault();
+                    $(".active").removeClass("active");
+                   $(this).addClass("active");
+                    let selectedListKey = $(".active > a > span").attr("data-atribute");
+                    firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey).once('value')
+                    .then(function(list) {
+                        let items = list.val()._items;
+                        templates.get('user-list').then(function(template) {
+                        let object = { username: userInfo.username, lists: lists, title: list.val()._title, items: items }
+                            context.$element().html(template(object));
+                        });
+                    });
+                });
             });
-
     });
 }
 
-export { login, signup, signOut, showDashboard };
+export { login, signup, signOut, showDashboard, loadingScreen };

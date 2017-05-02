@@ -21,6 +21,7 @@
     "crypto-js": "^3.1.9-1",
     "handlebars": "^4.0.6",
     "jquery": "^3.2.1",
+    "please-wait": "0.0.5",
     "sammy": "^0.7.6",
     "systemjs": "^0.20.12",
     "systemjs-plugin-babel": "0.0.21",

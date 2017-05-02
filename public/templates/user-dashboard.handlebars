@@ -1,6 +1,6 @@
 <div class="container-fluid display-table">
     <div class="row display-table-row">
-        <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
+        <div class="col-md-3 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
             <div class="logo">
                 <a hef="#/">
                     Hello, {{username}}!
@@ -9,38 +9,14 @@
             <div class="navi">
                 <ul>
                     {{#each lists}}
-                        <li><a href="#"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i><span data-atribute="{{this.key}}" class="hidden-xs hidden-sm">{{this.title}}</span></a></li>
+                        <li class="list-title"><a href="#"><i class="{{this.glyphicon}}" aria-hidden="true"></i><span data-atribute="{{this.key}}" class="hidden-xs hidden-sm">{{this.title}}</span></a></li>
                     {{/each}}
-                    {{!--<li class="active"><a href="#"><i class="glyphicon glyphicon-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Home</span></a></li>
-                    <li><a href="#"><i class="glyphicon glyphicon-briefcase" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Work</span></a></li>
-                    <li><a href="#"><i class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Groceries</span></a></li>
-                    <li><a href="#"><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Settings</span></a></li>--}}
+                    <li><a href="#"><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Edit profile</span></a></li>
                 </ul>
             </div>
         </div>
-        <div class="col-md-10 col-sm-11 display-table-cell v-align" id="main-board">
-            <div class="row">
-                <header>
-                    <div class="col-md-6">
-                        <div class="add-item hidden-xs hidden-sm">
-                            <input class="col-md-10" type="text" placeholder="Add item" id="input-add">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-success btn-lg"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add</button>
-                    </div>
-                </header>
-            </div>
-            <div class="user-dashboard">
-                <h1>List 1</h1>
-                <div class="row">
-                    <div class="col-md-5 col-sm-5 col-xs-12 gutter">
-                        <div class="item">
-                            <h2>Item 1 <input type="checkbox" /> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </h2>                                </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-9 col-sm-11 display-table-cell v-align" id="main-board">
+            <h1>Welcome to our dashboard! Here you'll see and manage all of your lists!</h1>
         </div>
     </div>
 </div>
