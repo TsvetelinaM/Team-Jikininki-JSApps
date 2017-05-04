@@ -2,6 +2,7 @@ import 'jquery';
 import Sammy from 'sammy';
 import * as homeController from 'homeController';
 import * as usersController from 'usersController';
+import 'bootstrap';
 
 (function () {
     let app = Sammy('#main', function () {
@@ -35,7 +36,7 @@ import * as usersController from 'usersController';
                 // No user is signed in.
                 var screen = usersController.loadingScreen();
                 app.run('#/');
-                
+
                 $('#btn-signout').addClass('hidden');
                 $('#log-buttons').removeClass('hidden');
                 screen.finish();

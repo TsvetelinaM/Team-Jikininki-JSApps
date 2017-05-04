@@ -31,7 +31,8 @@ System.config({
    'handlebars': '../node_modules/handlebars/dist/handlebars.js',
    'sammy': '../node_modules/sammy/lib/sammy.js',
    'cryptojs': '../node_modules/crypto-js/crypto-js.js',
-   'toastr': '../node_modules/toastr/toastr.js'
+   'toastr': '../node_modules/toastr/toastr.js',
+   'bootstrap': '../node_modules/bootstrap/dist/js/bootstrap.min.js'
  }
 });
 
