@@ -8,20 +8,18 @@
   <title>Pocket Book</title>
   <link rel="shortcut icon" href="./to-do-list.ico" />
 
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="../node_modules/toastr/build/toastr.css">
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="./node_modules/toastr/build/toastr.css">
   <link rel="stylesheet" href="./css/main.css">
   <link rel="stylesheet" href="./css/dashboard.css">
   <link rel="stylesheet" href="./css/login.css">
   <link rel="stylesheet" href="./css/signin.css">
-  <link rel="stylesheet" href="../node_modules/please-wait/build/please-wait.css">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="utf-8"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="./node_modules/please-wait/build/please-wait.css">
 
 </head>
 
 <body>
+<script src="./libs/fb_cred.js" charset="utf-8"></script>
   <div id="container">
     <div id="header">
       <nav class="navbar navbar-default">
@@ -49,7 +47,7 @@
   </div>
 
 
-  <script src="../node_modules/please-wait/build/please-wait.js"></script>
+  <script src="./node_modules/please-wait/build/please-wait.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
   <script>
     // Initialize Firebase
@@ -63,7 +61,7 @@
     };
     firebase.initializeApp(config);
   </script>
-<script src="../node_modules/systemjs/dist/system.js"></script>
+<script src="./node_modules/systemjs/dist/system.js"></script>
 <script src="./scripts/system-config.js"></script>
 </body>
 
