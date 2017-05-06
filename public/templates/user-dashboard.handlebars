@@ -11,12 +11,12 @@
                     {{#each lists}}
                         <li class="list-title"><a href="#"><i class="{{this.glyphicon}}" aria-hidden="true"></i><span data-atribute="{{this.key}}" class="hidden-xs hidden-sm">{{this.title}}</span></a></li>
                     {{/each}}
-                    <li><a href="#"><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Edit profile</span></a></li>
+                    <li><a class="disabled" href="#"><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Edit profile</span></a></li>
                 </ul>
             </div>
         </div>
         <div class="col-md-9 col-sm-11 display-table-cell v-align" id="main-board">
-            <h1>Welcome to our dashboard! Here you'll see and manage all of your lists!</h1>
+            <h1 id="dashboard-welcome">Welcome to our dashboard! Here you'll see and manage all of your lists!</h1>
         </div>
     </div>
 </div>

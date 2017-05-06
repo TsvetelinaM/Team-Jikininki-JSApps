@@ -1,6 +1,7 @@
 import * as templates from 'templates';
 import CryptoJS from 'cryptojs';
-import User from 'classUser'
+import User from 'classUser';
+import Item from 'classItem';
 import toastr from 'toastr';
 import ErrorDiv from 'classErrorDiv';
 import validations from 'validations';
@@ -90,40 +91,67 @@ function loadingScreen() {
 }
 
 function showDashboard(context) {
-    let userInfo = {};
+    let userData = {};
     let lists = [];
-    templates.get('user-dashboard').then(function (template) {
-        let databaseRef = firebase.database().ref('lists/' + localStorage.username);
-        databaseRef.once('value')
-            .then(function (data) {
-                let resultlists = data.val();
-                let keys = Object.keys(resultlists);
-                keys.forEach(key => {
-                    let list = resultlists[key];
-                    lists.push({ key: key, title: list._title, glyphicon: list._glyphicon});
-                });
-            })
-            .then(function () {
-                userInfo = { username: localStorage.username, lists: lists };
-                context.$element().html(template(userInfo));
-            })
-            .then(function() {
-                $('.list-title').on('click', function(event) {
-                    event.preventDefault();
-                    $(".active").removeClass("active");
-                   $(this).addClass("active");
-                    let selectedListKey = $(".active > a > span").attr("data-atribute");
-                    firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey).once('value')
-                    .then(function(list) {
-                        let items = list.val()._items;
-                        templates.get('user-list').then(function(template) {
-                        let object = { username: userInfo.username, lists: lists, title: list.val()._title, items: items }
-                            context.$element().html(template(object));
-                        });
-                    });
-                });
+    let template;
+
+    templates.get('user-dashboard')
+        .then(function (resTemplate) {
+            template = resTemplate;
+            let databaseRef = firebase.database().ref('lists/' + localStorage.username);
+            return databaseRef.once('value');
+        })
+        .then(function (data) {
+            let resultLists = data.val();
+            let keys = Object.keys(resultLists);
+            keys.forEach(key => {
+                let list = resultLists[key];
+                lists.push({ key: key, title: list._title, glyphicon: list._glyphicon });
             });
-    });
+        })
+        .then(function () {
+            userData = { username: localStorage.username, lists: lists };
+            context.$element().html(template(userData));
+        })
+        .then(function () {
+            $('.list-title').on('click', function (event) {
+                event.preventDefault();
+                $(".active").removeClass("active");
+                $(this).addClass("active");
+                let selectedListKey = $(".active > a > span").attr("data-atribute");
+                firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey).once('value')
+                    .then(function (list) {
+                        let items = list.val()._items;
+                        templates.get('user-list')
+                            .then(function (template) {
+                                let listObject = { title: list.val()._title, items: items }
+                                $("#dashboard-welcome").addClass("hidden");
+                                $("#main-board").html(template(listObject));
+                            })
+                            .then(function() {
+                                $("#btn-add-item").on("click", function () {
+                                    let $inputAddItem = $("#input-add-item");
+                                    let inputValue = $inputAddItem.val();
+                                    if(inputValue !== null && inputValue !== "") {
+                                        let newItem = new Item(inputValue, false);
+                                        firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey + '/_items')
+                                        .push(newItem);
+                                        location.reload(); // Fix this to load only template
+                                    } else {
+                                        toastr.error("Cannot add empty task to the list.");
+                                    }
+                                });
+                                $(".checkbox-task").on("click", function() {
+                                    if($(this).is(':checked')) {
+                                        console.log("checked now");
+                                    } else {
+                                        console.log("not checked now");
+                                    }
+                                });
+                            })
+                    });
+            });
+        });
 }
 
 export { login, signup, signOut, showDashboard, loadingScreen };

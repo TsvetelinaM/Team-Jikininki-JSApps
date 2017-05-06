@@ -1,7 +1,6 @@
 class Item {
-    constructor(title, description, checked) {
+    constructor(title, checked) {
         this.title = title;
-        this.description = description;
         this.checked = false;
     }
 
@@ -11,14 +10,6 @@ class Item {
 
     set title(value) {
         this._title = value;
-    }
-
-    get description() {
-        return this._description;
-    }
-
-    set description(value) {
-        this._description = value;
     }
 
     get checked() {
