@@ -128,27 +128,47 @@ function showDashboard(context) {
                                 $("#dashboard-welcome").addClass("hidden");
                                 $("#main-board").html(template(listObject));
                             })
-                            .then(function() {
+                            .then(function () {
                                 $("#btn-add-item").on("click", function () {
                                     let $inputAddItem = $("#input-add-item");
                                     let inputValue = $inputAddItem.val();
-                                    if(inputValue !== null && inputValue !== "") {
+                                    if (inputValue !== null && inputValue !== "") {
                                         let newItem = new Item(inputValue, false);
                                         firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey + '/_items')
-                                        .push(newItem);
+                                            .push(newItem);
                                         location.reload(); // Fix this to load only template
                                     } else {
                                         toastr.error("Cannot add empty task to the list.");
                                     }
                                 });
-                                $(".checkbox-task").on("click", function() {
-                                    if($(this).is(':checked')) {
-                                        console.log("checked now");
+
+                                $(".checkbox-task").on("click", function () {
+                                    let key = $(this).attr("item-key-attribute");
+                                    let itemRef = firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey + '/_items/' + key);
+                                    if ($(this).is(':checked')) {
+                                        itemRef.once('value', function (item) {
+                                            item.ref.update({
+                                                "_checked": true
+                                            });
+                                            location.reload(); // Fix this to load only template
+                                        });
                                     } else {
-                                        console.log("not checked now");
+                                        itemRef.once('value', function (item) {
+                                            item.ref.update({
+                                                "_checked": false
+                                            });
+                                            location.reload(); // Fix this to load only template
+                                        });
                                     }
                                 });
-                            })
+
+                                $(".item-trash").on('click', function() {
+                                    let key = $(this).prev().attr("item-key-attribute");
+                                    let itemRef = firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey + '/_items/' + key);
+                                    itemRef.remove();
+                                    location.reload();
+                                });
+                            });
                     });
             });
         });
