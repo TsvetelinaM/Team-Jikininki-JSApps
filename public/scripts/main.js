@@ -14,7 +14,7 @@ import 'bootstrap';
 
         this.get('#/signup', usersController.signup);
 
-        this.get('#/dashboard', usersController.showDashboard)
+        this.get('#/dashboard', usersController.dashboard)
     });
 
     // Start application

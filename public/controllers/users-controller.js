@@ -90,7 +90,7 @@ function loadingScreen() {
     return window.loading_screen;
 }
 
-function showDashboard(context) {
+function dashboard(context) {
     let userData = {};
     let lists = [];
     let template;
@@ -174,4 +174,4 @@ function showDashboard(context) {
         });
 }
 
-export { login, signup, signOut, showDashboard, loadingScreen };
+export { login, signup, signOut, dashboard, loadingScreen };
