@@ -2,11 +2,11 @@ import * as templates from 'templates';
 import CryptoJS from 'cryptojs';
 import User from 'classUser';
 import Item from 'classItem';
+import List from 'classList';
 import toastr from 'toastr';
 import ErrorDiv from 'classErrorDiv';
 import validations from 'validations';
 import { setLocalStorage } from 'localStorage';
-import { addList } from 'test';
 import * as usersController from 'usersController';
 
 function login(context) {
@@ -15,17 +15,20 @@ function login(context) {
         $('#fb-login').on('click',() => {
 
           FB.login((response) =>{
-         if (response.status === 'connected') {
-                  FB.api('/me', (userInfo) => {
-                  //setLocalStorage('username', response.name);
-                  setLocalStorage('username', response.id);
-                  context.redirect('#/dashboard');
-                });
-              };
-           }, { scope: 'email' });
+            if (response.status === 'connected') {
+              FB.api('/me', (userInfo) => {
+                 setLocalStorage('username', userInfo.name);
+                 setLocalStorage('uid', userInfo.id);
+              });
+            };
+         }, { scope: 'email' });
+
+          context.redirect('#/dashboard');
+
+
         });
         $('#btn-login').on('click', function () {
-            let currentUser;
+
             // TODO check input info and log in if it is correct
             let password = $('#password').val();
             let email = $('#email').val();
@@ -38,10 +41,8 @@ function login(context) {
             //user log in:
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function (user) {
-                    setLocalStorage('username',user.displayName);
+                    setLocalStorage('uid',user.uid);
                     context.redirect('#/dashboard');
-
-                    // location.reload();
                 });
         });
     });
@@ -69,15 +70,32 @@ function signup(context) {
             //mail validation
             validations.mailValidation(email);
 
-            //creating the user object
-            let user = new User(fullname, username, email, passHash);
-            console.log(JSON.stringify(user));
+            let newUser = new Promise((resolve) => {
+                firebase.database().ref('users').push(new User(fullname, username, email, passHash));
+                firebase.auth().createUserWithEmailAndPassword(email, passHash);
 
-            //add user to the DB
-            user.add();
+                setTimeout(function () {
+                    resolve(firebase.auth().currentUser);
+                }, 2000);
+            });
+
+            newUser.then((currentUser) => {
+                currentUser.updateProfile({
+                    displayName: username
+                }).then(function () {
+                    console.log(firebase.auth().currentUser.displayName);
+                }, function (error) {
+                    console.log('error with currentUser auth');
+                });
+              setLocalStorage('uid', currentUser.uid);
+              setLocalStorage('username', currentUser.displayName);
+
+            })
+            .then(() =>{
+              context.redirect('#/dashboard');
+            });
 
 
-           context.redirect('#/dashboard');
         });
     });
 }
@@ -112,7 +130,16 @@ function dashboard(context) {
     templates.get('user-dashboard')
         .then(function (resTemplate) {
             template = resTemplate;
-            let databaseRef = firebase.database().ref('lists/' + localStorage.username);
+            firebase.database().ref('lists/' + localStorage.uid).on('value',(data) => {
+              if (data.val()===null || data.val()===undefined) {
+                  let firstUserList = new List('Test01', 'Test01', 'Test01');
+                  firstUserList.addItem(new Item('title', false))
+                  firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
+                  console.log('firstUserList');
+              };
+            });
+            let databaseRef = firebase.database().ref('lists/' + localStorage.uid);
+            databaseRef.on('value',(data) => console.log(data.val()));
             return databaseRef.once('value');
         })
         .then(function (data) {
@@ -133,7 +160,7 @@ function dashboard(context) {
                 $(".active").removeClass("active");
                 $(this).addClass("active");
                 let selectedListKey = $(".active > a > span").attr("data-atribute");
-                firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey).once('value')
+                firebase.database().ref('lists/' + localStorage.uid + '/' + selectedListKey).once('value')
                     .then(function (list) {
                         let items = list.val()._items;
                         templates.get('user-list')
@@ -148,7 +175,7 @@ function dashboard(context) {
                                     let inputValue = $inputAddItem.val();
                                     if (inputValue !== null && inputValue !== "") {
                                         let newItem = new Item(inputValue, false);
-                                        firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey + '/_items')
+                                        firebase.database().ref('lists/' + localStorage.uid + '/' + selectedListKey + '/_items')
                                             .push(newItem);
                                         location.reload(); // Fix this to load only template
                                     } else {
@@ -158,7 +185,7 @@ function dashboard(context) {
 
                                 $(".checkbox-task").on("click", function () {
                                     let key = $(this).attr("item-key-attribute");
-                                    let itemRef = firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey + '/_items/' + key);
+                                    let itemRef = firebase.database().ref('lists/' + localStorage.uid + '/' + selectedListKey + '/_items/' + key);
                                     if ($(this).is(':checked')) {
                                         itemRef.once('value', function (item) {
                                             item.ref.update({
@@ -178,7 +205,7 @@ function dashboard(context) {
 
                                 $(".item-trash").on('click', function() {
                                     let key = $(this).prev().attr("item-key-attribute");
-                                    let itemRef = firebase.database().ref('lists/' + localStorage.username + '/' + selectedListKey + '/_items/' + key);
+                                    let itemRef = firebase.database().ref('lists/' + localStorage.uid + '/' + selectedListKey + '/_items/' + key);
                                     itemRef.remove();
                                     location.reload();
                                 });
