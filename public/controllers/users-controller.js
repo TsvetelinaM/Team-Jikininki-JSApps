@@ -42,6 +42,7 @@ function login(context) {
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function (user) {
                     setLocalStorage('uid',user.uid);
+                    setLocalStorage('username',user.displayName);
                     context.redirect('#/dashboard');
                 });
         });
@@ -69,32 +70,39 @@ function signup(context) {
 
             //mail validation
             validations.mailValidation(email);
+            let user = new User(fullname, username, email, passHash);
+            user.add();
 
-            let newUser = new Promise((resolve) => {
-                firebase.database().ref('users').push(new User(fullname, username, email, passHash));
-                firebase.auth().createUserWithEmailAndPassword(email, passHash);
-
-                setTimeout(function () {
-                    resolve(firebase.auth().currentUser);
-                }, 2000);
-            });
-
-            newUser.then((currentUser) => {
-                currentUser.updateProfile({
-                    displayName: username
-                }).then(function () {
-                    console.log(firebase.auth().currentUser.displayName);
-                }, function (error) {
-                    console.log('error with currentUser auth');
-                });
-              setLocalStorage('uid', currentUser.uid);
-              setLocalStorage('username', currentUser.displayName);
-
-            })
-            .then(() =>{
-              context.redirect('#/dashboard');
-            });
-
+            // let newUser = new Promise((resolve) => {
+            //     firebase.database().ref('users').push(new User(fullname, username, email, passHash));
+            //     firebase.auth().createUserWithEmailAndPassword(email, passHash);
+            //
+            //     setTimeout(function () {
+            //         resolve(firebase.auth().currentUser);
+            //     }, 2000);
+            // });
+            //
+            // newUser.then((currentUser) => {
+            //     currentUser.updateProfile({
+            //         displayName: username
+            //     }).then(function () {
+            //         console.log(firebase.auth().currentUser.displayName);
+            //     }, function (error) {
+            //       //  console.log('error with currentUser auth');
+            //     });
+            //   setLocalStorage('uid', currentUser.uid);
+            //   setLocalStorage('username', currentUser.displayName);
+            //   console.log(setLocalStorage.username);
+            // })
+            // .then(() => {
+            //   let firstUserList = new List('Test01', 'Test01', 'Test01');
+            //   firstUserList.addItem(new Item('title', false))
+            //   firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
+            // })
+            // .then(() =>{
+            //   context.redirect('#/dashboard');
+            //   console.log(firebase.auth().currentUser.displayName);
+            // });
 
         });
     });
@@ -135,11 +143,10 @@ function dashboard(context) {
                   let firstUserList = new List('Test01', 'Test01', 'Test01');
                   firstUserList.addItem(new Item('title', false))
                   firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
-                  console.log('firstUserList');
               };
             });
             let databaseRef = firebase.database().ref('lists/' + localStorage.uid);
-            databaseRef.on('value',(data) => console.log(data.val()));
+
             return databaseRef.once('value');
         })
         .then(function (data) {
