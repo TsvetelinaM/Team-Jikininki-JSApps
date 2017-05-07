@@ -62,7 +62,7 @@ class User {
             });
 
           setLocalStorage('uid', currentUser.uid);
-          setLocalStorage('username', currentUser.displayName);
+          setLocalStorage('username', this.username);
         })
         .then(() => {
           let firstUserList = new List('Test01', 'Test01', 'Test01');
@@ -70,7 +70,7 @@ class User {
           firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
         })
         .then(() => {
-          location.hash = '#/login';
+          location.hash = '#/dashboard';
           location.reload();
         });
 
