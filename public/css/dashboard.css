@@ -85,9 +85,9 @@ li,ul{
     text-decoration: none;
 }
 
-.login-header .nav-tabs > li.active {
+/*.login-header .nav-tabs > li.active {
     border-bottom: 6px solid #5584ff;
-}
+}*/
 
 .login-inner h1 {
     color: #8492af;
@@ -236,7 +236,7 @@ li,ul{
 }
 
 .add-project {
-    background: #5584ff none repeat scroll 0 0;
+    background: #ad85bc none repeat scroll 0 0;
     border-radius: 100px;
     color: #ffffff;
     font-size: 14px;
@@ -306,7 +306,7 @@ li,ul{
     padding: 17px;
 }
 .view {
-    background: #5584ff none repeat scroll 0 0;
+    background: #ad85bc none repeat scroll 0 0;
     border-radius: 100px;
     color: #ffffff;
     display: inline-block;
@@ -359,8 +359,8 @@ header {
 }
 
 .navi a {
-    border-bottom: 1px solid cadetblue;
-    border-top: 1px solid cadetblue;
+/*    border-bottom: 1px solid cadetblue;
+    border-top: 1px solid cadetblue;*/
     color: #ffffff;
     display: block;
     font-size: 17px;
@@ -381,10 +381,11 @@ header {
 }
 
 .navi a:hover {
-    background: cornflowerblue none repeat scroll 0 0;
+    background: #ad85bc none repeat scroll 0 0;
     border-left: 5px solid #5584ff;
     display: block;
     padding-left: 15px;
+    text-decoration: underline;
 }
 
 .navbar-default {
@@ -478,6 +479,42 @@ header {
     text-decoration: line-through;
 }
 /*Main CSS*/
+/*dashboard css*/
+#dashboard {
+  height: 500px;
+  border: 2px solid grey;
+}
+
+#navigation {
+  background-image: url('../imgs/dark_embroidery/dark_embroidery.png');
+  color: #FFFFCC;
+}
+
+.logo>a{
+  display: inline-block;
+  color:#FFFFCC;
+  padding: 15px;
+}
+
+.logo>a:hover{
+  display: inline-block;
+  color:#FFFFCC;
+  padding: 15px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.list-title {
+  border:none;
+}
+
+#edit-profile{
+  position:absolute;
+  bottom:0px;
+  width: 100%;
+}
+
+
+
 
 @media only screen and (max-device-width: 767px) {
     .login-logo img {

@@ -22,14 +22,14 @@
 <script src="./libs/fb_cred.js" charset="utf-8"></script>
   <div id="container">
     <div id="header">
-      <nav class="navbar navbar-default">
+      <nav class="navbar-default">
         <div class="container-fluid">
           <div class="navbar-header col-lg-8">
             <a class="navbar-brand" href="#/">
-            <img class="navbar-brand" src="./imgs/logoB.png" alt="">
-          </a>
+              <img class="navbar-brand" src="./imgs/logo.png" alt="">
+            </a>
           </div>
-          <button id="btn-signout" class="btn btn-danger navbar-right hidden btn-md fa fa-facebook">Sign out</button>
+          <button id="btn-signout" class="btn navbar-right hidden btn-md">Sign out</button>
           <div class="navbar-right" id="log-buttons">
             <!-- Share button
             <div class="fb-share-button navbar-btn btn-md btn" data-href="https://jikininki-b48ae.firebaseapp.com/" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fjikininki-b48ae.firebaseapp.com%2F&amp;src=sdkpreparse">Share</a></div>
@@ -38,10 +38,10 @@
             <div class="fb-like navbar-btn btn-md btn" data-href="https://jikininki-b48ae.firebaseapp.com/" data-layout="standard" data-action="like" data-size="large" data-show-faces="true" data-share="false"></div>
           -->
             <a href="javascript:fbShareCurrentPage()" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+escape(window.location.href)+'&t='+document.title, '','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=500');return false;"
-                class="btn btn-default">
+                class="btn btn-default" id="fb-button">
                 <i class="fa fa-facebook"></i>
             </a>
-            <a href="https://twitter.com/intent/tweet?text=Pocket Book is the best! Check it out!" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn-default navbar-btn btn-md">
+            <a href="https://twitter.com/intent/tweet?text=Pocket Book is the best! Check it out!" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" id="tw-button" class="btn btn-default navbar-btn btn-md">
                 <i class="fa fa-twitter"></i>
             </a>
             <a href="#/login" id="" class="btn btn-success navbar-btn btn-md">Log in</a>
@@ -50,32 +50,23 @@
         </div>
       </nav>
     </div>
-
+    <main>
     <div id="main"  class="container">
     </div>
-
-  <!--  <div id="footer" class="container-fluid text-center">
-      <h3>FOOTER</h3>
-    </div>-->
+      </main>
+    <footer>
+      <div id="footer_J"class="container-fluid text-center">
+        <h3>Team Jikininki &copy 2017</h3>
+      </div>
+    </footer>
   </div>
 
 
   <script src="./libs/please-wait.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyBelM-Jn_TCl27vG3Mi6hUg09i1YphWj38",
-      authDomain: "jikininki-b48ae.firebaseapp.com",
-      databaseURL: "https://jikininki-b48ae.firebaseio.com",
-      projectId: "jikininki-b48ae",
-      storageBucket: "jikininki-b48ae.appspot.com",
-      messagingSenderId: "244661341178"
-    };
-    firebase.initializeApp(config);
-  </script>
-<script src="./libs/systemjs/dist/system.js"></script>
-<script src="./scripts/system-config.js"></script>
+  <script src="./libs/firebase_conf.js" charset="utf-8"></script>
+  <script src="./libs/systemjs/dist/system.js"></script>
+  <script src="./scripts/system-config.js"></script>
 </body>
 
 </html>

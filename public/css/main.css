@@ -49,6 +49,47 @@ body.pg-loaded > #container {
   -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
   animation: sk-rotateplane 1.2s infinite ease-in-out;
 }
+.navbar-brand {
+  width: 100px;
+  height: 100px;
+  margin: 0px;
+  padding:0px;
+}
+
+.container{
+  padding: 0px;
+  width: 100%;
+}
+
+#footer_J, nav, .container {
+  background-image: url('../imgs/concrete_seamless/concrete_seamless.png');
+  color:gray;
+}
+#fb-button {
+  background-color: #6d84b4;
+}
+#fb-button:hover {
+  background-color: #afbdd4;
+}
+#tw-button {
+  background-color: #4099FF;
+}
+#tw-button:hover {
+  background-color: #72B3FF;
+}
+
+.container {
+  height: 500px;
+}
+
+#btn-signout {
+  background-color: #ad85bc;
+}
+
+
+
+
+
 
 @-webkit-keyframes sk-rotateplane {
   0% { -webkit-transform: perspective(120px) }
