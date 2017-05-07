@@ -69,10 +69,10 @@ class User {
           firstUserList.addItem(new Item('title', false))
           firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
         })
-        // .then(() => {
-        //   location.hash = '#/dashboard';
-        //   location.reload();
-        // });
+        .then(() => {
+          location.hash = '#/login';
+          location.reload();
+        });
 
 
     }

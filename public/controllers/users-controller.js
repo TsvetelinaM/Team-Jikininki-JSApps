@@ -12,6 +12,7 @@ import * as usersController from 'usersController';
 function login(context) {
     templates.get('login').then(function (template) {
         context.$element().html(template());
+        
         $('#fb-login').on('click',() => {
 
           FB.login((response) =>{
