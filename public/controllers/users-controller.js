@@ -12,7 +12,18 @@ import * as usersController from 'usersController';
 function login(context) {
     templates.get('login').then(function (template) {
         context.$element().html(template());
+        $('#fb-login').on('click',() => {
 
+          FB.login((response) =>{
+         if (response.status === 'connected') {
+                  FB.api('/me', (userInfo) => {
+                  //setLocalStorage('username', response.name);
+                  setLocalStorage('username', response.id);
+                  context.redirect('#/dashboard');
+                });
+              };
+           }, { scope: 'email' });
+        });
         $('#btn-login').on('click', function () {
             let currentUser;
             // TODO check input info and log in if it is correct
@@ -27,7 +38,7 @@ function login(context) {
             //user log in:
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function (user) {
-                    setLocalStorage(user.displayName);
+                    setLocalStorage('username',user.displayName);
                     context.redirect('#/dashboard');
 
                     // location.reload();
@@ -64,6 +75,9 @@ function signup(context) {
 
             //add user to the DB
             user.add();
+
+
+           context.redirect('#/dashboard');
         });
     });
 }
@@ -83,7 +97,7 @@ function signOut() {
 
 function loadingScreen() {
     window.loading_screen = window.pleaseWait({
-        logo: './css/trans-logo.png',
+        logo: './css/logo.png',
         backgroundColor: '#5f9ea0',
         loadingHtml: '<div class="spinner"></div>'
     });

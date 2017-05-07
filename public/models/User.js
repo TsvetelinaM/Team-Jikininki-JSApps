@@ -1,3 +1,6 @@
+import List from 'classList';
+import Item from 'classItem';
+
 class User {
     constructor(fullname, username, email, password) {
         this.fullname = fullname;
@@ -54,11 +57,13 @@ class User {
             }).then(function () {
                 console.log(firebase.auth().currentUser.displayName);
             }, function (error) {
-                console.log('error');
+                console.log('error with currentUser auth');
             });
+          let firstUserList = new List('Test01', 'Test01', 'Test01');
+          firstUserList.addItem(new Item('title', false))
+          firebase.database().ref('lists/' + currentUser.uid).push(firstUserList);
         });
 
-      firebase.auth().signOut();
     }
 }
 

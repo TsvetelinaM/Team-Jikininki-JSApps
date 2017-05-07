@@ -1,4 +1,4 @@
-function setLocalStorage(displayName) {
+function setLocalStorage(prop, value) {
   // //getting data from the firebase:
   // let database = firebase.database().ref('users');
   // database.on('value', gotData, errData);
@@ -15,7 +15,7 @@ function setLocalStorage(displayName) {
   //   console.log(err);
   // };
 
-  localStorage.setItem('username', displayName);
+  localStorage.setItem(prop, value);
 }
 
 export { setLocalStorage }
