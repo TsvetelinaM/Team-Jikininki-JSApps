@@ -29,6 +29,7 @@ import 'bootstrap';
                 console.log(user);
                 $('#log-buttons').addClass('hidden');
                 $('#btn-signout').removeClass('hidden');
+                $('#dashboard-button').removeClass('hidden');
                 $('#btn-signout').on('click', function (event) {
                     usersController.signOut();
                 });
@@ -39,6 +40,7 @@ import 'bootstrap';
                 app.run('#/');
 
                 $('#btn-signout').addClass('hidden');
+                $('#dashboard-button').addClass('hidden');
                 $('#log-buttons').removeClass('hidden');
                 screen.finish();
             }

@@ -57,11 +57,8 @@ let dashBEvents = {
             location.reload();
         });
     },
-    saveItem: (arg1) => {
+    saveItem: (arg1, itemKey) => {
         $(".save-item").on('click', function () {
-            console.log(event.target);
-            let itemKey = $(event.target).prev().prev().attr("item-key-attribute");
-
             let newTitle = $("#edit-title").val();
             database.updateItem(arg1, itemKey, newTitle);
 
@@ -76,11 +73,10 @@ let dashBEvents = {
                     database.getItem(arg1, key)
                         .then(function (item) {
                             let itemInfo = item.val();
-                            // console.log(itemInfo);
                             $("#main-board").html(template(itemInfo));
                         })
                         .then(function () {
-                            dashBEvents.saveItem(arg1);
+                            dashBEvents.saveItem(arg1, key);
                         });
                 });
         });
