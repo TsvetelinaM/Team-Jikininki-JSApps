@@ -1,13 +1,23 @@
-import * as templates from 'templates';
+// frameworks
 import CryptoJS from 'cryptojs';
+import toastr from 'toastr';
+
+// CUSTOM
+// app modules
+import validations from 'validations';
+
+// models
 import User from 'classUser';
 import Item from 'classItem';
 import List from 'classList';
-import toastr from 'toastr';
+
+// DOM manipulation
+import * as templates from 'templates';
+import $selectElement from 'elements';
 import ErrorDiv from 'classErrorDiv';
-import validations from 'validations';
+
+// data
 import { setLocalStorage } from 'localStorage';
-// import * as usersController from 'usersController';
 import database from 'database';
 import dashBEvenets from 'dashboardEvents';
 
@@ -132,6 +142,7 @@ function dashboard(context) {
         .then(function (lists) {
             userData = { username: localStorage.username, lists: lists };
             context.$element().html(template(userData));
+
             dashBEvenets.btnAddList();
         })
         .then(function () {
