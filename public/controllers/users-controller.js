@@ -63,12 +63,13 @@ function login(context) {
             try {
                 let password = $(elementSelector.passwordInput).val();
                 validator.isStringEmptyOrWhitespace(password);
+                let passHash = CryptoJS.SHA1(password).toString();
 
                 let email = $(elementSelector.emailInput).val();
                 validator.isStringEmptyOrWhitespace(email);
                 validator.isEmailValid(email);
 
-                database.signInUser(email, password)
+                database.signInUser(email, passHash)
                     .then(function (user) {
                         setLocalStorage('uid', user.uid);
                         setLocalStorage('username', user.displayName);
@@ -109,8 +110,8 @@ function signup(context) {
                 validator.isStringEmptyOrWhitespace(email);
                 validator.isEmailValid(email);
 
-                //let passHash = CryptoJS.SHA1(password).toString();
-                let passHash = password;
+                let passHash = CryptoJS.SHA1(password).toString();
+                //let passHash = password;
 
                 let user = new User(fullname, username, email, passHash);
                 user.add(context);
