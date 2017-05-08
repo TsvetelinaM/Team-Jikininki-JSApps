@@ -65,7 +65,7 @@ var dashBEvents = {
                     database.updateItemCheckState(listKey, itemKey, false);
                 }
 
-                location.reload(); // Fix this to load only template
+                //location.reload(); // Fix this to load only template
 
                 toastr.success("Task with ID: " + itemKey + " was marked as done.");
             }

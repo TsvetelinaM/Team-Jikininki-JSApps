@@ -63,7 +63,6 @@ function login(context) {
             try {
                 let password = $(elementSelector.passwordInput).val();
                 validator.isStringEmptyOrWhitespace(password);
-                validator.isPasswordValid(password);
 
                 let email = $(elementSelector.emailInput).val();
                 validator.isStringEmptyOrWhitespace(email);

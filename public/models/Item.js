@@ -14,7 +14,7 @@ class Item {
     }
 
     set title(value) {
-        validator.isStringLengthBetween(value, this.TITLE_MIN_LENGTH, this.TITLE_MAX_LENGTH);
+        //validator.isStringLengthBetween(value, this.TITLE_MIN_LENGTH, this.TITLE_MAX_LENGTH);
         this._title = value;
     }
 
@@ -23,7 +23,7 @@ class Item {
     }
 
     set checked(value) {
-        validator.isBoolean(value);
+        //validator.isBoolean(value);
         this._checked = value;
     }
 }
