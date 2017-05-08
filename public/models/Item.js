@@ -14,7 +14,7 @@ class Item {
     }
 
     set title(value) {
-        validator.isStringLengthBetween(value, TITLE_MIN_LENGTH, TITLE_MAX_LENGTH);
+        validator.isStringLengthBetween(value, this.TITLE_MIN_LENGTH, this.TITLE_MAX_LENGTH);
         this._title = value;
     }
 
