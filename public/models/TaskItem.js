@@ -1,17 +1,17 @@
 import Item from 'classItem';
 
 class TaskItem extends Item {
-    constructor(title, description, checked, reminderDate) {
-        super(title, description, checked);
-        this.reminderDate = reminderDate;
+    constructor(title, checked, dueDate) {
+        super(title, checked);
+        this.dueDate = dueDate;
     }
 
-    get reminderDate() {
-        return this._reminderDate;
+    get dueDate() {
+        return this._dueDate;
     }
 
-    set reminderDate(value) {
-        this._reminderDate = value;
+    set dueDate(value) {
+        this._dueDate = value;
     }
 }
 

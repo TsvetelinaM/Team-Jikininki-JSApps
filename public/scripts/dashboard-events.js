@@ -1,5 +1,7 @@
 import * as templates from 'templates';
 import Item from 'classItem';
+import TaskItem from 'classTaskItem';
+import ProductItem from 'classProductItem';
 import List from 'classList';
 import elementSelector from 'elements';
 import toastr from 'toastr';
@@ -28,7 +30,7 @@ let dashBEvents = {
             let inputValue = $(elementSelector.addItemInput).val();
             
             if (inputValue !== null && inputValue !== "") {
-                let newItem = new Item(inputValue, false, "", "");
+                let newItem = new TaskItem(inputValue, false, "");
                 database.pushItem(listKey, newItem);
                 location.reload(); // Fix this to load only template
             } else {
@@ -38,11 +40,12 @@ let dashBEvents = {
     },
 
     checkboxTask: (listKey) => {
-        $(elementSelector.ItemCheckbox).on("click", function () {
+        $(elementSelector.itemCheckbox).on("click", function () {
             let key = $(this).attr("item-key-attribute");
             
             if ($(this).is(':checked')) {
                 database.updateItemCheckState(listKey, key, true);
+                database.removeDueDate(listKey, key);
             } else {
                 database.updateItemCheckState(listKey, key, false);
             }
@@ -61,7 +64,8 @@ let dashBEvents = {
     saveItem: (listKey, itemKey) => {
         $(elementSelector.itemSaveButton).on('click', function () {
             let newTitle = $(elementSelector.editTitleInput).val();
-            database.updateItem(listKey, itemKey, newTitle);
+            let newDate = $(elementSelector.editDateInput).val();
+            database.updateItem(listKey, itemKey, newTitle, newDate);
 
             location.reload(); // FIX
         });

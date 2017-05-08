@@ -55,12 +55,22 @@ const database = {
                 });
             });
     },
-    updateItem: function (listKey, itemKey, title) {
+    removeDueDate: function (listKey, itemKey) {
+        return firebase.database()
+            .ref('lists/' + localStorage.uid + '/' + listKey + '/_items/' + itemKey)
+            .once('value', function (item) {
+                item.ref.update({
+                    "_dueDate": ""
+                });
+            });
+    },
+    updateItem: function (listKey, itemKey, title, dueDate) {
         return firebase.database()
             .ref('lists/' + localStorage.uid + '/' + listKey + '/_items/' + itemKey)
             .once('value', function (item) {
                 item.ref.update({
                     "_title": title,
+                    "_dueDate": dueDate
                 });
             });
     }
