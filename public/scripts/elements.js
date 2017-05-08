@@ -19,12 +19,12 @@ const elementSelector = {
     userNameInput : "#username",
     fullNameInput : "#fullname",
     passwordInput : "#password",
-    confirmPassword : "confirmPassword",
+    confirmPassword : "#confirmPassword",
     emailInput : "#email",
     loginButton : "#btn-login",
     fbLoginButton : "#fb-login",
     signupButton : "#btn-signup",
-    
+
 
     // CLASS ELEMENTS
     // list

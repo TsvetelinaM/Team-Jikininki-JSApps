@@ -8,7 +8,7 @@ const validator = {
         VALUE_LENGTH_IS_INVALID : `Provided string value length has to be between`,
         VALUE_IS_NOT_BOOLEAN : `Value is not boolean`,
         PASSWORDS_DO_NOT_MATCH : `Provided passwords do not match.`,
-        PASSWORD_IS_INVALID : `Provided password is invalid (password has to contain at least one lower and upper case character, one digit and one special character).`,
+        PASSWORD_IS_INVALID : `Provided password is invalid (password has to contain at least one lower and upper case character and one digit).`,
         EMAIL_IS_INVALID : `Provided e-mail address is not valid.`,
         NO_ITEM_KEY_FOUND : `Selected item has no proper key attribute`
     },
@@ -19,8 +19,8 @@ const validator = {
     },
 
     isString(value) {
-        if (typeof value !== "string") 
-            throw new Error(VALUE_IS_NOT_A_STRING);
+        if (typeof value !== "string")
+            throw new Error(this.validationMessages.VALUE_IS_NOT_A_STRING);
     },
 
     isEmptyOrWhitespace(value) {
@@ -28,18 +28,17 @@ const validator = {
         let whitespaceRegex = /^(\s)+$/;
         let isWhitespace = whitespaceRegex.test(stringValue);
 
-        if (stringValue.length === 0 || isWhitespace) 
+        if (stringValue.length === 0 || isWhitespace)
             throw new Error(this.validationMessages.VALUE_IS_EMPTY_OR_WHITESPACE);
     },
 
     isStringEmptyOrWhitespace(value) {
-        validator.isString(value);
-
         let whitespaceRegex = /^(\s)+$/,
             isWhitespace = whitespaceRegex.test(value);
 
-        if (value.length === 0 || isWhitespace) 
+        if (value.length === 0 || isWhitespace)
             throw new Error(this.validationMessages.VALUE_IS_EMPTY_OR_WHITESPACE);
+            validator.isString(value);
     },
 
     isStringLengthBetween(value, min, max) {
@@ -55,7 +54,7 @@ const validator = {
     },
 
     isBoolean(value) {
-        if (value !== true && value !== false) 
+        if (value !== true && value !== false)
             throw new Error(this.validationMessages.VALUE_IS_NOT_BOOLEAN);
     },
 
@@ -65,7 +64,7 @@ const validator = {
     },
 
     isPasswordValid(password) {
-        let validPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-+_!@#$%^&*.,?]).+$/,
+        let validPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*).+$/,
             isValid = validPasswordRegex.test(password);
 
         if  (!isValid)
@@ -84,7 +83,7 @@ const validator = {
         console.log(DOMelement);
         let hasKeyAttribute = DOMelement.hasAttribute("item-key-attribute"),
             keyAttributeIsNotNull = DOMelement.getAttribute("item-key-attribute") !== "";
-        
+
         if (!hasKeyAttribute && !keyAttributeIsNotNull)
             throw new Error(this.validationMessages.NO_ITEM_KEY_FOUND);
     }

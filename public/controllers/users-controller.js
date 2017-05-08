@@ -90,9 +90,9 @@ function signup(context) {
             try {
                 let password = $(elementSelector.passwordInput).val(),
                     confirmPassword = $(elementSelector.confirmPassword).val();
-                
+
                 validator.isStringEmptyOrWhitespace(password);
-                validator.isPasswordValid(password); 
+                validator.isPasswordValid(password);
 
                 validator.isStringEmptyOrWhitespace(confirmPassword);
                 validator.isPasswordValid(confirmPassword);
@@ -105,7 +105,7 @@ function signup(context) {
                 let username = $(elementSelector.userNameInput).val();
                 validator.isStringEmptyOrWhitespace(username);
 
-                let email = $(emailInput).val();
+                let email = $(elementSelector.emailInput).val();
                 validator.isStringEmptyOrWhitespace(email);
                 validator.isEmailValid(email);
 
