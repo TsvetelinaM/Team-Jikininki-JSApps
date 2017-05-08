@@ -8,66 +8,109 @@ import toastr from 'toastr';
 import { setLocalStorage } from 'localStorage';
 import database from 'database';
 import $ from 'jquery';
+import validator from 'validator';
 
-let dashBEvents = {
+var dashBEvents = {
     btnAddList: () => {
         $(elementSelector.addListButton).on('click', function () {
-            let listTitle = $(elementSelector.addListInput).val();
-            
-            if (listTitle == "") {
-                toastr.error("Cannot add list without a title.");
-            } else {
+            try {
+                let listTitle = $(elementSelector.addListInput).val();
+                validator.isStringEmptyOrWhitespace(listTitle);
+
                 let newList = new List(listTitle)
                 database.pushList(newList);
+
                 location.reload();
+
                 toastr.success("New list " + listTitle + " was added.");
+            }
+            catch(err) {
+                toastr.error(err.name + ": " + err.message);
             }
         });
     },
 
     btnAddItem: (listKey) => {
         $(elementSelector.addItemButton).on("click", function () {
-            let inputValue = $(elementSelector.addItemInput).val();
-            
-            if (inputValue !== null && inputValue !== "") {
-                let newItem = new TaskItem(inputValue, false, "");
+            try {
+                let itemName = $(elementSelector.addItemInput).val();
+                validator.isStringEmptyOrWhitespace(itemName);
+
+                let newItem = new TaskItem(itemName, false, "");
                 database.pushItem(listKey, newItem);
+
                 location.reload(); // Fix this to load only template
-            } else {
-                toastr.error("Cannot add empty task to the list.");
+
+                toastr.success("New item " + itemName + " was added to list.");
+            }
+            catch (err) {
+                console.log(err);
+                toastr.error(err.name + ": " + err.message);
             }
         });
     },
 
     checkboxTask: (listKey) => {
         $(elementSelector.itemCheckbox).on("click", function () {
-            let key = $(this).attr("item-key-attribute");
-            
-            if ($(this).is(':checked')) {
-                database.updateItemCheckState(listKey, key, true);
-                database.removeDueDate(listKey, key);
-            } else {
-                database.updateItemCheckState(listKey, key, false);
+            try {
+                let $this = $(this);
+                validator.listItemHasKey($this);
+                let itemKey = $this.attr("item-key-attribute");
+
+                if ($this.is(':checked')) {
+                    database.updateItemCheckState(listKey, itemKey, true);
+                    database.removeDueDate(listKey, itemKey);
+                } else {
+                    database.updateItemCheckState(listKey, itemKey, false);
+                }
+
+                location.reload(); // Fix this to load only template
+
+                toastr.success("Task with ID: " + itemKey + " was marked as done.");
             }
-            location.reload(); // Fix this to load only template
+            catch (err) {
+                toastr.error(err.name + ": " + err.message);
+            }
         });
     },
 
     itemTrash: (listKey) => {
         $(elementSelector.itemTrashIcon).on('click', function () {
-            let key = $(this).prev().attr("item-key-attribute");
-            database.removeItem(listKey, key);
-            location.reload();
+            try {
+                let $itemElement = $this.prev();
+                validator.listItemHasKey($itemElement);
+
+                let itemKey = $(this).prev().attr("item-key-attribute");
+                database.removeItem(listKey, itemKey);
+
+                location.reload();
+
+                toastr.success("Task with ID: " + itemKey + " was removed.");
+            }
+            catch (err) {
+                toastr.error(err.name + ": " + err.message);
+            }
         });
     },
 
     saveItem: (listKey, itemKey) => {
         $(elementSelector.itemSaveButton).on('click', function () {
-            let newTitle = $(elementSelector.editTitleInput).val();
-            let newDate = $(elementSelector.editDateInput).val();
-            database.updateItem(listKey, itemKey, newTitle, newDate);
+            try {
+                let newTitle = $(elementSelector.editTitleInput).val();
+                validator.isStringEmptyOrWhitespace(newTitle);
 
-            location.reload(); // FIX
+                let newDate = $(elementSelector.editDateInput).val();
+                validator.isEmptyOrWhitespace(newDate);
+                
+                database.updateItem(listKey, itemKey, newTitle, newDate);
+
+                location.reload(); // FIX
+
+                toastr.success("Task with ID: " + itemKey + " was saved.");
+            }
+            catch (err) {
+                toastr.error(err.name + ": " + err.message);
+            }
         });
     },
 
@@ -75,15 +118,23 @@ let dashBEvents = {
         $(elementSelector.itemEditIcon).on('click', function (event) {
             templates.get('edit-item')
                 .then(function (template) {
-                    let key = $(event.target).prev().prev().attr("item-key-attribute");
-                    database.getItem(listKey, key)
-                        .then(function (item) {
-                            let itemInfo = item.val();
-                            $(elementSelector.dashboardMain).html(template(itemInfo));
-                        })
-                        .then(function () {
-                            dashBEvents.saveItem(listKey, key);
-                        });
+                    try {
+                        let $item = $(event.target).prev().prev();
+                        validator.listItemHasKey($item);
+                        let itemKey = $item.attr("item-key-attribute");
+
+                        database.getItem(listKey, itemKey)
+                            .then(function (item) {
+                                let itemInfo = item.val();
+                                $(elementSelector.dashboardMain).html(template(itemInfo));
+                            })
+                            .then(function () {
+                                dashBEvents.saveItem(listKey, itemKey);
+                            });
+                    }
+                    catch (err) {
+                        toastr.error(err.name + ": " + err.message);
+                    }
                 });
         });
     },
@@ -91,6 +142,7 @@ let dashBEvents = {
     listTitle: () => {
         $(elementSelector.listTitle).on('click', function (event) {
             event.preventDefault();
+
             $(elementSelector.activelistElement).removeClass("active");
             $(this).addClass("active");
             let selectedListKey = $(".active > a > span").attr("data-atribute");

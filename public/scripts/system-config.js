@@ -16,6 +16,7 @@ System.config({
    'database': './scripts/database.js',
    'dashboardEvents': './scripts/dashboard-events.js',
    'elements' : './scripts/elements.js',
+   'validator' : './scripts/validator.js',
 
    //for tests only
    'test': './scripts/test.js',
