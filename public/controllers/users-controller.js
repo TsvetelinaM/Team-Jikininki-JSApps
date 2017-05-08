@@ -226,8 +226,6 @@ function dashboard(context) {
                                 });
                             });
                     });
-
-
             });
         });
 }
