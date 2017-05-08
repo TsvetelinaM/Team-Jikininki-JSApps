@@ -9,6 +9,15 @@ input[type=checkbox] {
     box-shadow: 2px 2px 6px grey;
 }
 
+#add-list {
+    margin-bottom: 5px;
+}
+#input-add-list{
+    color: black;
+    width: 70%;
+    height: 45px;
+}
+
 /*Login Signup Page*/
 a:focus,a:hover,a{
     outline:none;
@@ -513,9 +522,11 @@ header {
   width: 100%;
 }
 
-
-
-
+#dashboard-welcome {
+    display: block;
+    text-align: center;
+    margin-top: 19%;;
+}
 @media only screen and (max-device-width: 767px) {
     .login-logo img {
         margin: 0 auto;

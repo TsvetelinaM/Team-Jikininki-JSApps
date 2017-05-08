@@ -12,6 +12,8 @@ System.config({
    'templates': './scripts/templates.js',
    'validations': './scripts/input-validations.js',
    'localStorage': './scripts/local-storage.js',
+   'helpers': './scripts/helpers.js',
+   'database': './scripts/database.js',
 
    //for tests only
    'test': './scripts/test.js',

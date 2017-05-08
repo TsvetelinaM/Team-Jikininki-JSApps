@@ -1,7 +1,9 @@
 class Item {
-    constructor(title, checked) {
+    constructor(title, checked, dateFrom, dateTo) {
         this.title = title;
         this.checked = false;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
     }
 
     get title() {
@@ -18,6 +20,22 @@ class Item {
 
     set checked(value) {
         this._checked = value;
+    }
+
+    get dateFrom() {
+        return this._dateFrom;
+    }
+
+    set dateFrom(value) {
+        this._dateFrom = value;
+    }
+
+    get dateTo() {
+        return this._dateTo;
+    }
+
+    set dateTo(value) {
+        this._dateTo = value;
     }
 }
 

@@ -1,8 +1,8 @@
 class List {
-    constructor(title, description, category) {
+    constructor(title) {
         this.title = title;
-        this.description = description;
-        this.category = category;
+        this.description = "No description";
+        this.glyphicon = "glyphicon glyphicon-list-alt";
         this._items = [];
     }
 
@@ -22,12 +22,12 @@ class List {
         this._description = value;
     }
 
-    get category() {
-        return this._category;
+    get glyphicon() {
+        return this._glyphicon;
     }
 
-    set category(value) {
-        this._category = value;
+    set glyphicon(value) {
+        this._glyphicon = value;
     }
 
     get items() {

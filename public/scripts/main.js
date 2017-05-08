@@ -2,6 +2,7 @@ import 'jquery';
 import Sammy from 'sammy';
 import * as homeController from 'homeController';
 import * as usersController from 'usersController';
+import helpers from 'helpers';
 import 'bootstrap';
 
 (function () {
@@ -22,7 +23,7 @@ import 'bootstrap';
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 // User is signed in.
-                var screen = usersController.loadingScreen();
+                var screen = helpers.loadingScreen();
                 app.run('#/dashboard');
 
                 console.log(user);
@@ -34,7 +35,7 @@ import 'bootstrap';
                 screen.finish();
             } else {
                 // No user is signed in.
-                var screen = usersController.loadingScreen();
+                var screen = helpers.loadingScreen();
                 app.run('#/');
 
                 $('#btn-signout').addClass('hidden');

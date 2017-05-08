@@ -73,8 +73,6 @@ class User {
           location.hash = '#/dashboard';
           location.reload();
         });
-
-
     }
 }
 

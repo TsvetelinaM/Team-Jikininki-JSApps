@@ -25,6 +25,7 @@
                                 <span class="line-through"> {{this._title}} </span> 
                                 <input item-key-attribute="{{@key}}" class="checkbox-task" type="checkbox" checked="checked" /> 
                                 <span class="glyphicon glyphicon-trash item-trash" aria-hidden="true"></span> 
+                                <span class="glyphicon glyphicon-edit edit-item" aria-hidden="true"></span>
                             </h2>
                         </div>
                         {{else}}
@@ -33,6 +34,7 @@
                                 <span> {{this._title}} </span> 
                                 <input item-key-attribute="{{@key}}" class="checkbox-task" type="checkbox" /> 
                                 <span class="glyphicon glyphicon-trash item-trash" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-edit edit-item" aria-hidden="true"></span>
                             </h2>
                         </div>
                         {{/if}}
