@@ -25,16 +25,16 @@ function login(context) {
     templates.get('login').then(function (template) {
         context.$element().html(template());
 
-        $('#fb-login').on('click',() =>{
-          FB.login((response) =>{
-            if (response.status === 'connected') {
-              FB.api('/me', (userInfo) => {
-                 setLocalStorage('username', userInfo.name);
-                 setLocalStorage('uid', userInfo.id);
-              });
-            };
-         });
-        context.redirect('#/dashboard');
+        $('#fb-login').on('click', () => {
+            FB.login((response) => {
+                if (response.status === 'connected') {
+                    FB.api('/me', (userInfo) => {
+                        setLocalStorage('username', userInfo.name);
+                        setLocalStorage('uid', userInfo.id);
+                    });
+                };
+            });
+            context.redirect('#/dashboard');
         });
 
         $('#btn-login').on('click', function () {
@@ -48,8 +48,8 @@ function login(context) {
             //user log in:
             database.signInUser(email, password)
                 .then(function (user) {
-                    setLocalStorage('uid',user.uid);
-                    setLocalStorage('username',user.displayName);
+                    setLocalStorage('uid', user.uid);
+                    setLocalStorage('username', user.displayName);
                     context.redirect('#/dashboard');
                 });
         });
