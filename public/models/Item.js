@@ -1,12 +1,12 @@
 import validator from 'validator';
 
-const TITLE_MIN_LENGTH = 2;
-const TITLE_MAX_LENGTH = 32;
-
 class Item {
     constructor(title, checked) {
         this.title = title;
         this.checked = false;
+
+        const TITLE_MIN_LENGTH = 2;
+        const TITLE_MAX_LENGTH = 32;
     }
 
     get title() {
