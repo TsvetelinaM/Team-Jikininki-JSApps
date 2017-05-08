@@ -31,8 +31,10 @@ body.pg-loaded > #container {
     text-align: center;
 }
 
-#btn-signout {
+#btn-signout, #dashboard-button {
     margin: 20px;
+    background-color: #ad85bc;
+    color: #ffffff;
 }
 
 #log-buttons {
@@ -80,10 +82,6 @@ body.pg-loaded > #container {
 
 .container {
   height: 500px;
-}
-
-#btn-signout {
-  background-color: #ad85bc;
 }
 
 
