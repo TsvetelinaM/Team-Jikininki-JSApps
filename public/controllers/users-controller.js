@@ -13,7 +13,7 @@ import List from 'classList';
 
 // DOM manipulation
 import * as templates from 'templates';
-import $selectElement from 'elements';
+import elementSelector from 'elements';
 import ErrorDiv from 'classErrorDiv';
 
 // data

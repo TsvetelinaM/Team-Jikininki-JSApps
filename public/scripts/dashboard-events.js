@@ -1,6 +1,7 @@
 import * as templates from 'templates';
 import Item from 'classItem';
 import List from 'classList';
+import elementSelector from 'elements';
 import toastr from 'toastr';
 import { setLocalStorage } from 'localStorage';
 import database from 'database';
@@ -8,7 +9,7 @@ import $ from 'jquery';
 
 let dashBEvents = {
     btnAddList: () => {
-        $("#btn-add-list").on('click', function () {
+        $(elementSelector.addListButton).on('click', function () {
             let listTitle = $('#input-add-list').val();
             if (listTitle == "") {
                 toastr.error("Cannot add list without a title.");
