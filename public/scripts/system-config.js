@@ -14,6 +14,7 @@ System.config({
    'localStorage': './scripts/local-storage.js',
    'helpers': './scripts/helpers.js',
    'database': './scripts/database.js',
+   'dashboardEvents': './scripts/dashboard-events.js',
 
    //for tests only
    'test': './scripts/test.js',

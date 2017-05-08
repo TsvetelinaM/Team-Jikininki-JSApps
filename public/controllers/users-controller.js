@@ -9,8 +9,10 @@ import validations from 'validations';
 import { setLocalStorage } from 'localStorage';
 // import * as usersController from 'usersController';
 import database from 'database';
+import dashBEvenets from 'dashboardEvents';
 
 function login(context) {
+    // Render login template
     templates.get('login').then(function (template) {
         context.$element().html(template());
 
@@ -26,9 +28,8 @@ function login(context) {
             }, { scope: 'email' });
 
             context.redirect('#/dashboard');
-
-
         });
+
         $('#btn-login').on('click', function () {
 
             // TODO check input info and log in if it is correct
@@ -106,22 +107,18 @@ function loadItems(selectedListKey) {
 function dashboard(context) {
     let userData = {};
     let template;
-
-    // Render dashboard template with no selected lists
     templates.get('user-dashboard')
         .then(function (resTemplate) {
             template = resTemplate;
-            // Fix this
             firebase.database().ref('lists/' + localStorage.uid).on('value', (data) => {
                 if (data.val() === null || data.val() === undefined) {
                     let firstUserList = new List('Test01', 'Test01', 'Test01');
-                    firstUserList.addItem(new Item('title', false))
+                    firstUserList.addItem(new Item('title', false));
                     firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
-                };
+                }
             });
             return database.getLists();
         })
-        // Retrieve information about the list and process it
         .then(function (data) {
             let lists = [];
             let resultLists = data.val();
@@ -132,103 +129,13 @@ function dashboard(context) {
             });
             return lists;
         })
-        // Render information in html template
         .then(function (lists) {
             userData = { username: localStorage.username, lists: lists };
             context.$element().html(template(userData));
-            $("#btn-add-list").on('click', function () {
-                let listTitle = $('#input-add-list').val();
-                if (listTitle == "") {
-                    toastr.error("Cannot add list without a title.");
-                } else {
-                    let newList = new List(listTitle)
-                    database.pushList(newList);
-                    location.reload();
-                    toastr.success("New list " + listTitle + " was added.");
-                }
-            });
+            dashBEvenets.btnAddList();
         })
-        // Add more functionality to dashboard after loading items from a list
         .then(function () {
-            $('.list-title').on('click', function (event) {
-                event.preventDefault();
-                $(".active").removeClass("active");
-                $(this).addClass("active");
-                let selectedListKey = $(".active > a > span").attr("data-atribute");
-
-                database.getSingleList(selectedListKey)
-                    .then(function (list) {
-                        let items = list.val()._items;
-                        templates.get('user-list')
-                            .then(function (template) {
-                                let listObject = { title: list.val()._title, items: items }
-                                $("#dashboard-welcome").addClass("hidden");
-                                $("#main-board").html(template(listObject));
-                            })
-                            .then(function () {
-                                // Adding item by setting its title
-                                $("#btn-add-item").on("click", function () {
-                                    let $inputAddItem = $("#input-add-item");
-                                    let inputValue = $inputAddItem.val();
-                                    if (inputValue !== null && inputValue !== "") {
-                                        let newItem = new Item(inputValue, false, "", "");
-                                        database.pushItem(selectedListKey, newItem);
-                                        location.reload(); // Fix this to load only template
-                                    } else {
-                                        toastr.error("Cannot add empty task to the list.");
-                                    }
-                                });
-
-                                // Adding event to checkbox button of each item
-                                // and update item checked state accordingly
-                                $(".checkbox-task").on("click", function () {
-                                    let key = $(this).attr("item-key-attribute");
-                                    if ($(this).is(':checked')) {
-                                        database.updateItemCheckState(selectedListKey, key, true);
-                                        location.reload(); // Fix this to load only template
-                                    } else {
-                                        database.updateItemCheckState(selectedListKey, key, false);
-                                        location.reload(); // Fix this to load only template
-                                    }
-                                });
-
-                                // Adding event to delete item from list
-                                $(".item-trash").on('click', function () {
-                                    let key = $(this).prev().attr("item-key-attribute");
-                                    database.removeItem(selectedListKey, key);
-                                    location.reload();
-                                });
-
-                                // Adding event to edit item from the list
-                                // FIX add due data change
-                                $(".edit-item").on('click', function (event) {
-                                    templates.get('edit-item')
-                                        .then(function (template) {
-                                            let key = $(event.target).prev().prev().attr("item-key-attribute");
-                                            database.getItem(selectedListKey, key)
-                                                .then(function (item) {
-                                                    let itemInfo = item.val();
-                                                    // console.log(itemInfo);
-                                                    $("#main-board").html(template(itemInfo));
-                                                })
-                                                .then(function () {
-                                                    $(".save-item").on('click', function () {
-                                                        console.log(event.target);
-                                                        let itemKey = $(event.target).prev().prev().attr("item-key-attribute");
-
-                                                        let newTitle = $("#edit-title").val();
-                                                        database.updateItem(selectedListKey, itemKey, newTitle);
-
-                                                        location.reload(); // FIX
-                                                    });
-                                                });
-                                        });
-                                });
-                            });
-                    });
-
-
-            });
+            dashBEvenets.listTitle();
         });
 }
 
