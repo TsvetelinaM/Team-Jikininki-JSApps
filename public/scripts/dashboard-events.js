@@ -12,7 +12,7 @@ import validator from 'validator';
 import 'jqueryUI';
 
 var dashBEvents = {
-    loadListItems: (listKey, itemName) => {
+    loadListItems: (listKey) => {
         database.getSingleList(listKey)
             .then(function (list) {
                 let items = list.val()._items;
@@ -28,7 +28,6 @@ var dashBEvents = {
                         dashBEvents.editItem(listKey);
 
                     });
-                toastr.success("New item " + itemName + " was added to list.");
             });
     },
 
@@ -118,6 +117,8 @@ var dashBEvents = {
                 $(elementSelector.addItemInput).val("");
 
                 dashBEvents.loadListItems(listKey, itemName);
+
+                toastr.success("New item " + itemName + " was added to list.");
             }
             catch (err) {
                 console.log(err);
@@ -181,22 +182,23 @@ var dashBEvents = {
             $(this).addClass("active");
             let selectedListKey = $(".active > a > span").attr("data-atribute");
 
-            database.getSingleList(selectedListKey)
-                .then(function (list) {
-                    let items = list.val()._items;
-                    templates.get('user-list')
-                        .then(function (template) {
-                            let listObject = { title: list.val()._title, items: items };
-                            $(elementSelector.dashboardWelcome).addClass("hidden");
-                            $(elementSelector.dashboardMain).html(template(listObject));
-                        })
-                        .then(function () {
-                            dashBEvents.btnAddItem(selectedListKey);
-                            dashBEvents.checkboxTask(selectedListKey);
-                            dashBEvents.itemTrash(selectedListKey);
-                            dashBEvents.editItem(selectedListKey);
-                        });
-                });
+            dashBEvents.loadListItems(selectedListKey);
+            // database.getSingleList(selectedListKey)
+            //     .then(function (list) {
+            //         let items = list.val()._items;
+            //         templates.get('user-list')
+            //             .then(function (template) {
+            //                 let listObject = { title: list.val()._title, items: items };
+            //                 $(elementSelector.dashboardWelcome).addClass("hidden");
+            //                 $(elementSelector.dashboardMain).html(template(listObject));
+            //             })
+            //             .then(function () {
+            //                 dashBEvents.btnAddItem(selectedListKey);
+            //                 dashBEvents.checkboxTask(selectedListKey);
+            //                 dashBEvents.itemTrash(selectedListKey);
+            //                 dashBEvents.editItem(selectedListKey);
+            //             });
+            //     });
         });
     }
 };
