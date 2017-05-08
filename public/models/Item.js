@@ -1,3 +1,8 @@
+import validator from 'validator';
+
+const TITLE_MIN_LENGTH = 2;
+const TITLE_MAX_LENGTH = 32;
+
 class Item {
     constructor(title, checked) {
         this.title = title;
@@ -9,6 +14,7 @@ class Item {
     }
 
     set title(value) {
+        validator.isStringLengthBetween(value, TITLE_MIN_LENGTH, TITLE_MAX_LENGTH);
         this._title = value;
     }
 
@@ -17,6 +23,7 @@ class Item {
     }
 
     set checked(value) {
+        validator.isBoolean(value);
         this._checked = value;
     }
 }

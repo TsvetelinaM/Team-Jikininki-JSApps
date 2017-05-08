@@ -1,3 +1,4 @@
+// to be removed
 class Category {
     constructor(title, icon) {
         this.title = title;

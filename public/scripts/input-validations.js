@@ -1,3 +1,5 @@
+// file to be removed
+
 import 'jquery';
 import toastr from 'toastr';
 import ErrorDiv from 'classErrorDiv';

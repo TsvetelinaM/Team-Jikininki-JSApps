@@ -5,6 +5,8 @@ const validator = {
         VALUE_IS_NOT_A_STRING : `Provided value is not a string.`,
         VALUE_IS_EMPTY_OR_WHITESPACE : `Provided value is empty or whitespace.`,
         ONE_OF_VALUES_IS_EMPTY_OR_WHITESPACE : `One of provided values is empty or whitespace`,
+        VALUE_LENGTH_IS_INVALID : `Provided string value has to be between ${min} and ${max} characters length.`,
+        VALUE_IS_NOT_BOOLEAN : `Value is not boolean`,
         PASSWORDS_DO_NOT_MATCH : `Provided passwords do not match.`,
         PASSWORD_IS_INVALID : `Provided password is invalid (password has to contain at least one lower and upper case character, one digit and one special character).`,
         EMAIL_IS_INVALID : `Provided e-mail address is not valid.`,
@@ -40,9 +42,21 @@ const validator = {
             throw new Error(this.validationMessages.VALUE_IS_EMPTY_OR_WHITESPACE);
     },
 
+    isStringLengthBetween(value, min, max) {
+        validator.isString(value);
+
+        if (value.length < min || value.length > max)
+            throw new Error(this.validationMessages.VALUE_LENGTH_IS_INVALID);
+    },
+
     areStringsEmptyOrWhitespace(...values) {
         if (values.some(str => validator.isStringEmptyOrWhitespace(str)))
             throw new Error(this.validationMessages.ONE_OF_VALUES_IS_EMPTY_OR_WHITESPACE);
+    },
+
+    isBoolean(value) {
+        if (value !== true && value !== false) 
+            throw new Error(this.validationMessages.VALUE_IS_NOT_BOOLEAN);
     },
 
     passwordMatch(password_1, password_2) {
