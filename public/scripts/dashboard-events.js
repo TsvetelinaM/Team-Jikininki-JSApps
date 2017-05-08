@@ -40,7 +40,7 @@ var dashBEvents = {
                 let newItem = new TaskItem(itemName, false, "");
                 database.pushItem(listKey, newItem);
 
-                location.reload(); // Fix this to load only template
+                // location.reload(); // Fix this to load only template
 
                 toastr.success("New item " + itemName + " was added to list.");
             }
@@ -55,17 +55,18 @@ var dashBEvents = {
         $(elementSelector.itemCheckbox).on("click", function () {
             try {
                 let $this = $(this);
+                console.log($this);
                 validator.listItemHasKey($this[0]);
                 let itemKey = $this.attr("item-key-attribute");
 
                 if ($this.is(':checked')) {
                     database.updateItemCheckState(listKey, itemKey, true);
                     database.removeDueDate(listKey, itemKey);
+                    $this.prev().toggleClass('line-through');
                 } else {
                     database.updateItemCheckState(listKey, itemKey, false);
+                    $this.prev().toggleClass('line-through');
                 }
-
-                //location.reload(); // Fix this to load only template
 
                 toastr.success("Task with ID: " + itemKey + " was marked as done.");
             }
@@ -89,7 +90,7 @@ var dashBEvents = {
                         const $parent = $target.parent().parent();
                         $parent.remove();
                         toastr.options.positionClass = 'toast-top-center';
-                        toastr.success("Task with ID: " + itemKey + " was removed.");
+                        toastr.info("Task with ID: " + itemKey + " was removed.");
                     });
             }
             catch (err) {
