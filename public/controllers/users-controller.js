@@ -75,7 +75,7 @@ function signup(context) {
             //mail validation
             validations.mailValidation(email);
             let user = new User(fullname, username, email, passHash);
-            user.add();
+            user.add(context);
         });
     });
 }
@@ -92,23 +92,19 @@ function signOut() {
         })
 }
 
-function loadItems(selectedListKey) {
-    // TODO
-}
-
 function dashboard(context) {
     let userData = {};
     let template;
     templates.get('user-dashboard')
         .then(function (resTemplate) {
             template = resTemplate;
-            firebase.database().ref('lists/' + localStorage.uid).on('value', (data) => {
-                if (data.val() === null || data.val() === undefined) {
-                    let firstUserList = new List('Test01', 'Test01', 'Test01');
-                    firstUserList.addItem(new Item('title', false));
-                    firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
-                }
-            });
+            // firebase.database().ref('lists/' + localStorage.uid).on('value', (data) => {
+            //     if (data.val() === null || data.val() === undefined) {
+            //         let firstUserList = new List('Test01', 'Test01', 'Test01');
+            //         firstUserList.addItem(new Item('title', false));
+            //         firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
+            //     }
+            // });
             return database.getLists();
         })
         .then(function (data) {

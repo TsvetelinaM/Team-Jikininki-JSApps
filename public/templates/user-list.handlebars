@@ -32,7 +32,11 @@
                         {{else}}
                         <div class="item row">
                             <h2 class="well">
-                                <span> {{this._title}} : {{this._dueDate}} </span> 
+                                    {{#if this._dueDate}}
+                                        <span> {{this._title}} : {{this._dueDate}} </span>
+                                    {{else}}
+                                        <span> {{this._title}} </span>
+                                    {{/if}}
                                 <input item-key-attribute="{{@key}}" class="checkbox-task" type="checkbox" /> 
                                 <span class="glyphicon glyphicon-trash item-trash" aria-hidden="true"></span>
                                 <span class="glyphicon glyphicon-edit edit-item" aria-hidden="true"></span>

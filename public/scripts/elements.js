@@ -8,7 +8,7 @@ const elementSelector = {
     addListButton : "#btn-add-list",
     addListInput : "#input-add-list",
     editTitleInput : "#edit-title",
-    editDateInput : "#edit-date",
+    editDateInput : "#datepicker",
 
     // items
     addItemButton : "#btn-add-item",

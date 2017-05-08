@@ -1,15 +1,15 @@
 import $ from 'jquery';
 
 const database = {
-  // adding users methods
-    createUser (email, password) {
+    // Adding users methods
+    createUser: function (email, password) {
         return firebase.auth().createUserWithEmailAndPassword(email, password);
     },
 
-    pushUser (user) {
+    pushUser: function (user) {
         return firebase.database().ref('users').push(user);
     },
-    signInUser (email, password) {
+    signInUser: function (email, password) {
       return firebase.auth().signInWithEmailAndPassword(email, password);
     },
 

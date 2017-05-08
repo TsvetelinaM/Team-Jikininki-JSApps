@@ -9,6 +9,7 @@ import { setLocalStorage } from 'localStorage';
 import database from 'database';
 import $ from 'jquery';
 import validator from 'validator';
+import 'jqueryUI';
 
 var dashBEvents = {
     btnAddList: () => {
@@ -20,11 +21,11 @@ var dashBEvents = {
                 let newList = new List(listTitle)
                 database.pushList(newList);
 
-                location.reload();
+                location.reload(); // FIX
 
                 toastr.success("New list " + listTitle + " was added.");
             }
-            catch(err) {
+            catch (err) {
                 toastr.error(err.name + ": " + err.message);
             }
         });
@@ -54,7 +55,7 @@ var dashBEvents = {
         $(elementSelector.itemCheckbox).on("click", function () {
             try {
                 let $this = $(this);
-                validator.listItemHasKey($this);
+                validator.listItemHasKey($this[0]);
                 let itemKey = $this.attr("item-key-attribute");
 
                 if ($this.is(':checked')) {
@@ -75,17 +76,21 @@ var dashBEvents = {
     },
 
     itemTrash: (listKey) => {
-        $(elementSelector.itemTrashIcon).on('click', function () {
+        $(elementSelector.itemTrashIcon).on('click', function (event) {
             try {
-                let $itemElement = $this.prev();
-                validator.listItemHasKey($itemElement);
+                let $itemElement = $(this).prev();
+                validator.listItemHasKey($itemElement[0]);
 
                 let itemKey = $(this).prev().attr("item-key-attribute");
-                database.removeItem(listKey, itemKey);
-
-                location.reload();
-
-                toastr.success("Task with ID: " + itemKey + " was removed.");
+                database
+                    .removeItem(listKey, itemKey)
+                    .then(function (success) {
+                        const $target = $(event.target);
+                        const $parent = $target.parent().parent();
+                        $parent.remove();
+                        toastr.options.positionClass = 'toast-top-center';
+                        toastr.success("Task with ID: " + itemKey + " was removed.");
+                    });
             }
             catch (err) {
                 toastr.error(err.name + ": " + err.message);
@@ -101,7 +106,7 @@ var dashBEvents = {
 
                 let newDate = $(elementSelector.editDateInput).val();
                 validator.isEmptyOrWhitespace(newDate);
-                
+
                 database.updateItem(listKey, itemKey, newTitle, newDate);
 
                 location.reload(); // FIX
@@ -120,7 +125,7 @@ var dashBEvents = {
                 .then(function (template) {
                     try {
                         let $item = $(event.target).prev().prev();
-                        validator.listItemHasKey($item);
+                        validator.listItemHasKey($item[0]);
                         let itemKey = $item.attr("item-key-attribute");
 
                         database.getItem(listKey, itemKey)
@@ -129,6 +134,7 @@ var dashBEvents = {
                                 $(elementSelector.dashboardMain).html(template(itemInfo));
                             })
                             .then(function () {
+                                $( "#datepicker" ).datepicker();
                                 dashBEvents.saveItem(listKey, itemKey);
                             });
                     }

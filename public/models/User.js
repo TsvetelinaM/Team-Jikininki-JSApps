@@ -1,5 +1,5 @@
 import List from 'classList';
-import Item from 'classItem';
+import TaskItem from 'classTaskItem';
 import { setLocalStorage } from 'localStorage';
 import database from 'database';
 
@@ -43,27 +43,35 @@ class User {
         this._password = value;
     }
 
-    add() {
-      //adding user in the firebase DB
+    add(context) {
+        //adding user in the firebase DB
         database.pushUser(new User(this.fullname, this.username, this.email, this.password));
         database.createUser(this.email, this.password)
             .then(() => {
-               //setting the displayName of the currentUser
-                let user = firebase.auth().currentUser;
-                let usrname = this.username;
-                user.updateProfile({displayName : usrname});
+                //setting the displayName of the currentUser
+                const user = firebase.auth().currentUser;
+                const usrname = this.username;
+                user.updateProfile({ displayName: usrname });
                 setLocalStorage('uid', user.uid);
                 setLocalStorage('username', this.username);
-                //adding the first list for the user
-                let firstUserList = new List('Test01', 'Test01', 'Test01');
-                firstUserList.addItem(new Item('title', false));
-                firebase.database().ref('lists/' + localStorage.uid).push(firstUserList)
+
+                // Adding the Home list for the user
+                const homeList = new List("Home");
+                homeList.description = "A list with home tasks";
+                homeList.glyphicon = "glyphicon glyphicon-home";
+                homeList.addItem(new TaskItem('Example item', false, ""));
+
+                // Adding shopping list
+                const shoppingList = new List("Shopping list");
+                homeList.description = "A list for stuff to buy";
+
+                database
+                    .pushList(homeList)
                     .then(() => {
-                      //reloading the page to dashboard
-                        location.hash = '#/dashboard';
-                        location.reload();
+                        // Reloading the page to dashboard
+                        context.redirect('#/dashboard');
                     })
-                    .catch(err => { console.log(err)});
+                    .catch(err => { console.log(err) });
             })
             .catch(err => { console.log(err) });
     }
