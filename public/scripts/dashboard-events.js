@@ -10,7 +10,8 @@ import $ from 'jquery';
 let dashBEvents = {
     btnAddList: () => {
         $(elementSelector.addListButton).on('click', function () {
-            let listTitle = $('#input-add-list').val();
+            let listTitle = $(elementSelector.addListInput).val();
+            
             if (listTitle == "") {
                 toastr.error("Cannot add list without a title.");
             } else {
@@ -21,31 +22,34 @@ let dashBEvents = {
             }
         });
     },
-    btnAddItem: (arg1) => {
-        $("#btn-add-item").on("click", function () {
-            let $inputAddItem = $("#input-add-item");
-            let inputValue = $inputAddItem.val();
+
+    btnAddItem: (listKey) => {
+        $(elementSelector.addItemButton).on("click", function () {
+            let inputValue = $(elementSelector.addItemInput).val();
+            
             if (inputValue !== null && inputValue !== "") {
                 let newItem = new Item(inputValue, false, "", "");
-                database.pushItem(arg1, newItem);
+                database.pushItem(listKey, newItem);
                 location.reload(); // Fix this to load only template
             } else {
                 toastr.error("Cannot add empty task to the list.");
             }
         });
     },
-    checkboxTask: (arg1) => {
-        $(".checkbox-task").on("click", function () {
+
+    checkboxTask: (listKey) => {
+        $(elementSelector.ItemCheckbox).on("click", function () {
             let key = $(this).attr("item-key-attribute");
+            
             if ($(this).is(':checked')) {
-                database.updateItemCheckState(arg1, key, true);
-                location.reload(); // Fix this to load only template
+                database.updateItemCheckState(listKey, key, true);
             } else {
-                database.updateItemCheckState(arg1, key, false);
-                location.reload(); // Fix this to load only template
+                database.updateItemCheckState(listKey, key, false);
             }
+            location.reload(); // Fix this to load only template
         });
     },
+
     itemTrash: (arg1) => {
         $(".item-trash").on('click', function () {
             let key = $(this).prev().attr("item-key-attribute");
