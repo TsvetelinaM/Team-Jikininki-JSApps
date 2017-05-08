@@ -25,7 +25,7 @@ const validator = {
 
     isEmptyOrWhitespace(value) {
         let stringValue = value.toString();
-        let whitespaceRegex = /\s+/;
+        let whitespaceRegex = /^(\s)+$/;
         let isWhitespace = whitespaceRegex.test(stringValue);
 
         if (stringValue.length === 0 || isWhitespace) 
@@ -35,7 +35,7 @@ const validator = {
     isStringEmptyOrWhitespace(value) {
         validator.isString(value);
 
-        let whitespaceRegex = /\s+/,
+        let whitespaceRegex = /^(\s)+$/,
             isWhitespace = whitespaceRegex.test(value);
 
         if (value.length === 0 || isWhitespace) 

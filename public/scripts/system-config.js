@@ -33,6 +33,7 @@ System.config({
 
    // Library files
    'jquery': './libs/jquery.js',
+   'jqueryUI': './libs/jquery-ui.js',
    'handlebars': './libs/handlebars.js',
    'sammy': './libs/sammy.js',
    'cryptojs': './libs/crypto-js.js',

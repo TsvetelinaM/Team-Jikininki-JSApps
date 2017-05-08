@@ -114,7 +114,7 @@ function signup(context) {
                 let passHash = password;
 
                 let user = new User(fullname, username, email, passHash);
-                user.add();
+                user.add(context);
 
                 toastr.success("You have been successfully signed up!");
             }
@@ -137,23 +137,19 @@ function signOut() {
         })
 }
 
-function loadItems(selectedListKey) {
-    // TODO
-}
-
 function dashboard(context) {
     let userData = {};
     let template;
     templates.get('user-dashboard')
         .then(function (resTemplate) {
             template = resTemplate;
-            firebase.database().ref('lists/' + localStorage.uid).on('value', (data) => {
-                if (data.val() === null || data.val() === undefined) {
-                    let firstUserList = new List('Test01', 'Test01', 'Test01'); // this to be removed
-                    firstUserList.addItem(new Item('title', false)); // this to be removed
-                    firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
-                }
-            });
+            // firebase.database().ref('lists/' + localStorage.uid).on('value', (data) => {
+            //     if (data.val() === null || data.val() === undefined) {
+            //         let firstUserList = new List('Test01', 'Test01', 'Test01');
+            //         firstUserList.addItem(new Item('title', false));
+            //         firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
+            //     }
+            // });
             return database.getLists();
         })
         .then(function (data) {
