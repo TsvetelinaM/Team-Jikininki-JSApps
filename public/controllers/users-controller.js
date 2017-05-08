@@ -22,40 +22,34 @@ import database from 'database';
 import dashBEvenets from 'dashboardEvents';
 
 function login(context) {
-    // Render login template
     templates.get('login').then(function (template) {
         context.$element().html(template());
 
-        $('#fb-login').on('click', () => {
-
-            FB.login((response) => {
-                if (response.status === 'connected') {
-                    FB.api('/me', (userInfo) => {
-                        setLocalStorage('username', userInfo.name);
-                        setLocalStorage('uid', userInfo.id);
-                    });
-                };
-            }, { scope: 'email' });
-
-            context.redirect('#/dashboard');
+        $('#fb-login').on('click',() =>{
+          FB.login((response) =>{
+            if (response.status === 'connected') {
+              FB.api('/me', (userInfo) => {
+                 setLocalStorage('username', userInfo.name);
+                 setLocalStorage('uid', userInfo.id);
+              });
+            };
+         });
+        context.redirect('#/dashboard');
         });
 
         $('#btn-login').on('click', function () {
-
             // TODO check input info and log in if it is correct
             let password = $('#password').val();
             let email = $('#email').val();
             //fields validation
             validations.allFieldsRequired(password, email);
-
             //mail validation
             validations.mailValidation(email);
-
             //user log in:
-            firebase.auth().signInWithEmailAndPassword(email, password)
+            database.signInUser(email, password)
                 .then(function (user) {
-                    setLocalStorage('uid', user.uid);
-                    setLocalStorage('username', user.displayName);
+                    setLocalStorage('uid',user.uid);
+                    setLocalStorage('username',user.displayName);
                     context.redirect('#/dashboard');
                 });
         });
@@ -67,7 +61,6 @@ function signup(context) {
         context.$element().html(template());
 
         $("#btn-signup").on('click', function () {
-            // Get input data from signup fields
             let password = $('#password').val();
             let confirmedPassword = $('#confirmPassword').val();
             let fullname = $('#fullname').val();
@@ -75,23 +68,13 @@ function signup(context) {
             let email = $('#email').val();
             //let passHash = CryptoJS.SHA1(password).toString();
             let passHash = password;
-
-            // Fields validation
+            //fields validation
             validations.allFieldsRequired(fullname, username, email, passHash);
-
-            // Password validation
+            //password validation
             validations.passwordCheck(password, confirmedPassword);
-
-            // Mail validation
+            //mail validation
             validations.mailValidation(email);
-
-            // Other fields validation here 
-            // ......................
-
-            // Create a new user with passed data
             let user = new User(fullname, username, email, passHash);
-
-            // 
             user.add();
         });
     });
@@ -103,7 +86,6 @@ function signOut() {
         .then(function () {
             location.hash = '#/';
             location.reload();
-
             toastr.success("User succesfully signed out.");
         }).catch(function (error) {
             // TODO handle the error

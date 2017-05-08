@@ -21,7 +21,7 @@ import 'bootstrap';
     // Start application
     $(function () {
         firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
+            if (localStorage.uid) {
                 // User is signed in.
                 var screen = helpers.loadingScreen();
                 app.run('#/dashboard');

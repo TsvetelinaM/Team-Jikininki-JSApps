@@ -1,6 +1,7 @@
 import List from 'classList';
 import Item from 'classItem';
 import { setLocalStorage } from 'localStorage';
+import database from 'database';
 
 class User {
     constructor(fullname, username, email, password) {
@@ -43,36 +44,28 @@ class User {
     }
 
     add() {
-        let newUser = new Promise((resolve) => {
-            firebase.database().ref('users').push(new User(this.fullname, this.username, this.email, this.password));
-            firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
-
-            setTimeout(function () {
-                resolve(firebase.auth().currentUser);
-            }, 2000);
-        });
-
-        newUser.then((currentUser) => {
-            currentUser.updateProfile({
-                displayName: this.username
-            }).then(function () {
-                console.log(firebase.auth().currentUser.displayName);
-            }, function (error) {
-                console.log('error with currentUser auth');
-            });
-
-          setLocalStorage('uid', currentUser.uid);
-          setLocalStorage('username', this.username);
-        })
-        .then(() => {
-          let firstUserList = new List('Test01', 'Test01', 'Test01');
-          firstUserList.addItem(new Item('title', false))
-          firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
-        })
-        .then(() => {
-          location.hash = '#/dashboard';
-          location.reload();
-        });
+      //adding user in the firebase DB
+        database.pushUser(new User(this.fullname, this.username, this.email, this.password));
+        database.createUser(this.email, this.password)
+            .then(() => {
+               //setting the displayName of the currentUser
+                let user = firebase.auth().currentUser;
+                let usrname = this.username;
+                user.updateProfile({displayName : usrname});
+                setLocalStorage('uid', user.uid);
+                setLocalStorage('username', this.username);
+                //adding the first list for the user
+                let firstUserList = new List('Test01', 'Test01', 'Test01');
+                firstUserList.addItem(new Item('title', false));
+                firebase.database().ref('lists/' + localStorage.uid).push(firstUserList)
+                    .then(() => {
+                      //reloading the page to dashboard
+                        location.hash = '#/dashboard';
+                        location.reload();
+                    })
+                    .catch(err => { console.log(err)});
+            })
+            .catch(err => { console.log(err) });
     }
 }
 

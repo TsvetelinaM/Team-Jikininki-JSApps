@@ -32,12 +32,6 @@
           <button id="btn-signout" class="btn navbar-right hidden btn-md">Sign out</button>
           <a id="dashboard-button" href="#/dashboard" class="btn navbar-right hidden btn-md">Dashboard</a>
           <div class="navbar-right" id="log-buttons">
-            <!-- Share button
-            <div class="fb-share-button navbar-btn btn-md btn" data-href="https://jikininki-b48ae.firebaseapp.com/" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fjikininki-b48ae.firebaseapp.com%2F&amp;src=sdkpreparse">Share</a></div>
-           -->
-            <!-- Like button
-            <div class="fb-like navbar-btn btn-md btn" data-href="https://jikininki-b48ae.firebaseapp.com/" data-layout="standard" data-action="like" data-size="large" data-show-faces="true" data-share="false"></div>
-          -->
             <a href="javascript:fbShareCurrentPage()" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+escape(window.location.href)+'&t='+document.title, '','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=500');return false;"
                 class="btn btn-default" id="fb-button">
                 <i class="fa fa-facebook"></i>
@@ -64,8 +58,12 @@
 
 
   <script src="./libs/please-wait.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+  <script src="./libs/firebase.js"></script>
   <script src="./libs/firebase_conf.js" charset="utf-8"></script>
+  <!-- IE 11/10 support polyfills-->
+  <script src="./libs/es5-shim.min.js"></script>
+  <script src="./libs/es6-shim.min.js"></script>
+
   <script src="./libs/systemjs/dist/system.js"></script>
   <script src="./scripts/system-config.js"></script>
 </body>

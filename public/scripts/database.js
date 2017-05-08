@@ -1,14 +1,16 @@
 import $ from 'jquery';
 
 const database = {
-    createUser: function (email, password) {
+  // adding users methods
+    createUser (email, password) {
         return firebase.auth().createUserWithEmailAndPassword(email, password);
     },
 
-    pushUser: function (fullname, username, email, password) {
-        return firebase.database().ref('users').push({
-            // .... push info here
-        });
+    pushUser (user) {
+        return firebase.database().ref('users').push(user);
+    },
+    signInUser (email, password) {
+      return firebase.auth().signInWithEmailAndPassword(email, password);
     },
 
     // Getting information about the lists
