@@ -5,8 +5,8 @@ class Item {
         this.title = title;
         this.checked = false;
 
-        const TITLE_MIN_LENGTH = 2;
-        const TITLE_MAX_LENGTH = 32;
+        this.TITLE_MIN_LENGTH = 2;
+        this.TITLE_MAX_LENGTH = 32;
     }
 
     get title() {
