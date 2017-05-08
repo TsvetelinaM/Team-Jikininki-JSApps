@@ -15,6 +15,17 @@ const elementSelector = {
     addItemInput : "#input-add-item",
     itemSaveButton : ".save-item", // TODO - refactor to ID
 
+    // login/signup forms
+    userNameInput : "#username",
+    fullNameInput : "#fullname",
+    passwordInput : "#password",
+    confirmPassword : "confirmPassword",
+    emailInput : "#email",
+    loginButton : "#btn-login",
+    fbLoginButton : "#fb-login",
+    signupButton : "#btn-signup",
+    
+
     // CLASS ELEMENTS
     // list
     listTitle: ".list-title",

@@ -4,6 +4,7 @@ const validator = {
         VALUE_IS_NULL_OR_UNDEFINED : `Provided value is null or undefined`,
         VALUE_IS_NOT_A_STRING : `Provided value is not a string.`,
         VALUE_IS_EMPTY_OR_WHITESPACE : `Provided value is empty or whitespace.`,
+        ONE_OF_VALUES_IS_EMPTY_OR_WHITESPACE : `One of provided values is empty or whitespace`,
         PASSWORDS_DO_NOT_MATCH : `Provided passwords do not match.`,
         PASSWORD_IS_INVALID : `Provided password is invalid (password has to contain at least one lower and upper case character, one digit and one special character).`,
         EMAIL_IS_INVALID : `Provided e-mail address is not valid.`,
@@ -39,6 +40,11 @@ const validator = {
             throw new Error(this.validationMessages.VALUE_IS_EMPTY_OR_WHITESPACE);
     },
 
+    areStringsEmptyOrWhitespace(...values) {
+        if (values.some(str => validator.isStringEmptyOrWhitespace(str)))
+            throw new Error(this.validationMessages.ONE_OF_VALUES_IS_EMPTY_OR_WHITESPACE);
+    },
+
     passwordMatch(password_1, password_2) {
         if (password_1 !== password_2)
             throw new Error(this.validationMessages.PASSWORDS_DO_NOT_MATCH);
@@ -61,6 +67,7 @@ const validator = {
     },
 
     listItemHasKey(DOMelement) {
+        console.log(DOMelement);
         let hasKeyAttribute = DOMelement.hasAttribute("item-key-attribute"),
             keyAttributeIsNotNull = DOMelement.getAttribute("item-key-attribute") !== "";
         

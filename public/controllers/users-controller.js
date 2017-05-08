@@ -5,6 +5,7 @@ import toastr from 'toastr';
 // CUSTOM
 // app modules
 import validations from 'validations';
+import validator from 'validator';
 
 // models
 import User from 'classUser';
@@ -21,37 +22,63 @@ import { setLocalStorage } from 'localStorage';
 import database from 'database';
 import dashBEvenets from 'dashboardEvents';
 
+// MY PROPOSAL OF EXTRACTING FBLOGIN FROM LOGIN FUNCTION
+// FUNCTION LOGIN BELOW DOES TOO MANY THINGS
+//
+// function fbLogin(context) {
+//     templates.get('login').then(function (template) {
+//         context.$element().html(template());
+
+//         $(elementSelector.fbLoginButton).on('click',() =>{
+//           FB.login((response) =>{
+//             if (response.status === 'connected') {
+//               FB.api('/me', (userInfo) => {
+//                  setLocalStorage('username', userInfo.name);
+//                  setLocalStorage('uid', userInfo.id);
+//               });
+//             };
+//          });
+//         context.redirect('#/dashboard');
+//         });
+//     });
+// }
+
 function login(context) {
     templates.get('login').then(function (template) {
         context.$element().html(template());
 
-        $('#fb-login').on('click', () => {
-            FB.login((response) => {
-                if (response.status === 'connected') {
-                    FB.api('/me', (userInfo) => {
-                        setLocalStorage('username', userInfo.name);
-                        setLocalStorage('uid', userInfo.id);
-                    });
-                };
-            });
-            context.redirect('#/dashboard');
+        $(elementSelector.fbLoginButton).on('click',() =>{
+          FB.login((response) =>{
+            if (response.status === 'connected') {
+              FB.api('/me', (userInfo) => {
+                 setLocalStorage('username', userInfo.name);
+                 setLocalStorage('uid', userInfo.id);
+              });
+            };
+         });
+        context.redirect('#/dashboard');
         });
 
-        $('#btn-login').on('click', function () {
-            // TODO check input info and log in if it is correct
-            let password = $('#password').val();
-            let email = $('#email').val();
-            //fields validation
-            validations.allFieldsRequired(password, email);
-            //mail validation
-            validations.mailValidation(email);
-            //user log in:
-            database.signInUser(email, password)
-                .then(function (user) {
-                    setLocalStorage('uid', user.uid);
-                    setLocalStorage('username', user.displayName);
-                    context.redirect('#/dashboard');
-                });
+        $(elementSelector.loginButton).on('click', function () {
+            try {
+                let password = $(elementSelector.passwordInput).val();
+                validator.isStringEmptyOrWhitespace(password);
+                validator.isPasswordValid(password);
+
+                let email = $(elementSelector.emailInput).val();
+                validator.isStringEmptyOrWhitespace(email);
+                validator.isEmailValid(email);
+
+                database.signInUser(email, password)
+                    .then(function (user) {
+                        setLocalStorage('uid', user.uid);
+                        setLocalStorage('username', user.displayName);
+                        context.redirect('#/dashboard');
+                    });
+            }
+            catch (err) {
+                toastr.error(err.name + ": " + err.message);
+            }
         });
     });
 }
@@ -60,22 +87,40 @@ function signup(context) {
     templates.get('signup').then(function (template) {
         context.$element().html(template());
 
-        $("#btn-signup").on('click', function () {
-            let password = $('#password').val();
-            let confirmedPassword = $('#confirmPassword').val();
-            let fullname = $('#fullname').val();
-            let username = $('#username').val();
-            let email = $('#email').val();
-            //let passHash = CryptoJS.SHA1(password).toString();
-            let passHash = password;
-            //fields validation
-            validations.allFieldsRequired(fullname, username, email, passHash);
-            //password validation
-            validations.passwordCheck(password, confirmedPassword);
-            //mail validation
-            validations.mailValidation(email);
-            let user = new User(fullname, username, email, passHash);
-            user.add(context);
+        $(elementSelector.signupButton).on('click', function () {
+            try {
+                let password = $(elementSelector.passwordInput).val(),
+                    confirmPassword = $(elementSelector.confirmPassword).val();
+                
+                validator.isStringEmptyOrWhitespace(password);
+                validator.isPasswordValid(password); 
+
+                validator.isStringEmptyOrWhitespace(confirmPassword);
+                validator.isPasswordValid(confirmPassword);
+
+                validator.passwordMatch(password, confirmPassword);
+
+                let fullname = $(elementSelector.fullNameInput).val();
+                validator.isStringEmptyOrWhitespace(fullname);
+
+                let username = $(elementSelector.userNameInput).val();
+                validator.isStringEmptyOrWhitespace(username);
+
+                let email = $(emailInput).val();
+                validator.isStringEmptyOrWhitespace(email);
+                validator.isEmailValid(email);
+
+                //let passHash = CryptoJS.SHA1(password).toString();
+                let passHash = password;
+
+                let user = new User(fullname, username, email, passHash);
+                user.add(context);
+
+                toastr.success("You have been successfully signed up!");
+            }
+            catch (err) {
+                toastr.error(err.name + ": " + err.message);
+            }
         });
     });
 }
@@ -87,8 +132,8 @@ function signOut() {
             location.hash = '#/';
             location.reload();
             toastr.success("User succesfully signed out.");
-        }).catch(function (error) {
-            // TODO handle the error
+        }).catch(function (err) {
+            toastr.error(err.name + ": " + err.message);
         })
 }
 
@@ -113,7 +158,7 @@ function dashboard(context) {
             let keys = Object.keys(resultLists);
             keys.forEach(key => {
                 let list = resultLists[key];
-                lists.push({ key: key, title: list._title, glyphicon: list._glyphicon });
+                lists.push({ key: key, title: list._title, glyphicon: list._glyphicon }); // this is not how getters work
             });
             return lists;
         })
