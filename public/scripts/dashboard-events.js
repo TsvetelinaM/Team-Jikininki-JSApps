@@ -12,6 +12,26 @@ import validator from 'validator';
 import 'jqueryUI';
 
 var dashBEvents = {
+    loadListItems: (listKey, itemName) => {
+        database.getSingleList(listKey)
+            .then(function (list) {
+                let items = list.val()._items;
+                templates.get('user-list')
+                    .then(function (template) {
+                        let listObject = { title: list.val()._title, items: items };
+                        $(elementSelector.dashboardMain).html(template(listObject));
+                    })
+                    .then(function () {
+                        dashBEvents.btnAddItem(listKey);
+                        dashBEvents.checkboxTask(listKey);
+                        dashBEvents.itemTrash(listKey);
+                        dashBEvents.editItem(listKey);
+
+                    });
+                toastr.success("New item " + itemName + " was added to list.");
+            });
+    },
+
     btnAddList: () => {
         $(elementSelector.addListButton).on('click', function () {
             try {
@@ -24,51 +44,6 @@ var dashBEvents = {
                 location.reload(); // FIX
 
                 toastr.success("New list " + listTitle + " was added.");
-            }
-            catch (err) {
-                toastr.error(err.name + ": " + err.message);
-            }
-        });
-    },
-
-    btnAddItem: (listKey) => {
-        $(elementSelector.addItemButton).on("click", function () {
-            try {
-                let itemName = $(elementSelector.addItemInput).val();
-                validator.isStringEmptyOrWhitespace(itemName);
-
-                let newItem = new TaskItem(itemName, false, "");
-                database.pushItem(listKey, newItem);
-
-                // location.reload(); // Fix this to load only template
-
-                toastr.success("New item " + itemName + " was added to list.");
-            }
-            catch (err) {
-                console.log(err);
-                toastr.error(err.name + ": " + err.message);
-            }
-        });
-    },
-
-    checkboxTask: (listKey) => {
-        $(elementSelector.itemCheckbox).on("click", function () {
-            try {
-                let $this = $(this);
-                console.log($this);
-                validator.listItemHasKey($this[0]);
-                let itemKey = $this.attr("item-key-attribute");
-
-                if ($this.is(':checked')) {
-                    database.updateItemCheckState(listKey, itemKey, true);
-                    database.removeDueDate(listKey, itemKey);
-                    $this.prev().toggleClass('line-through');
-                } else {
-                    database.updateItemCheckState(listKey, itemKey, false);
-                    $this.prev().toggleClass('line-through');
-                }
-
-                toastr.success("Task with ID: " + itemKey + " was marked as done.");
             }
             catch (err) {
                 toastr.error(err.name + ": " + err.message);
@@ -94,6 +69,58 @@ var dashBEvents = {
                     });
             }
             catch (err) {
+                toastr.error(err.name + ": " + err.message);
+            }
+        });
+    },
+
+    checkboxTask: (listKey) => {
+        $(elementSelector.itemCheckbox).on("click", function () {
+            try {
+                let $this = $(this);
+                console.log($this);
+                validator.listItemHasKey($this[0]);
+                let itemKey = $this.attr("item-key-attribute");
+
+                if ($this.is(':checked')) {
+                    database.updateItemCheckState(listKey, itemKey, true);
+                    database.removeDueDate(listKey, itemKey);
+                    $this.prev().toggleClass('line-through');
+
+                    toastr.options = {
+                        "preventDuplicates": true
+                    }
+                    toastr.success("Task with ID: " + itemKey + " was marked as done.");
+                } else {
+                    database.updateItemCheckState(listKey, itemKey, false);
+                    $this.prev().toggleClass('line-through');
+
+                    toastr.options = {
+                        "preventDuplicates": true
+                    }
+                    toastr.success("Task with ID: " + itemKey + " was unmarked as done.");
+                }
+            }
+            catch (err) {
+                toastr.error(err.name + ": " + err.message);
+            }
+        });
+    },
+
+    btnAddItem: (listKey) => {
+        $(elementSelector.addItemButton).on("click", function () {
+            try {
+                const itemName = $(elementSelector.addItemInput).val();
+                validator.isStringEmptyOrWhitespace(itemName);
+
+                const newItem = new TaskItem(itemName, false, "");
+                const newItemKey = database.pushItem(listKey, newItem).key;
+                $(elementSelector.addItemInput).val("");
+
+                dashBEvents.loadListItems(listKey, itemName);
+            }
+            catch (err) {
+                console.log(err);
                 toastr.error(err.name + ": " + err.message);
             }
         });
@@ -135,7 +162,7 @@ var dashBEvents = {
                                 $(elementSelector.dashboardMain).html(template(itemInfo));
                             })
                             .then(function () {
-                                $( "#datepicker" ).datepicker();
+                                $("#datepicker").datepicker();
                                 dashBEvents.saveItem(listKey, itemKey);
                             });
                     }
