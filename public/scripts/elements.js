@@ -7,6 +7,7 @@ const elementSelector = {
     // list
     addListButton : "#btn-add-list",
     addListInput : "#input-add-list",
+    editTitleInput : "#edit-title",
 
     // items
     addItemButton : "#btn-add-item",

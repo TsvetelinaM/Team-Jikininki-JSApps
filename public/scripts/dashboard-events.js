@@ -50,41 +50,44 @@ let dashBEvents = {
         });
     },
 
-    itemTrash: (arg1) => {
-        $(".item-trash").on('click', function () {
+    itemTrash: (listKey) => {
+        $(elementSelector.itemTrashIcon).on('click', function () {
             let key = $(this).prev().attr("item-key-attribute");
-            database.removeItem(arg1, key);
+            database.removeItem(listKey, key);
             location.reload();
         });
     },
-    saveItem: (arg1, itemKey) => {
-        $(".save-item").on('click', function () {
-            let newTitle = $("#edit-title").val();
-            database.updateItem(arg1, itemKey, newTitle);
+
+    saveItem: (listKey, itemKey) => {
+        $(elementSelector.itemSaveButton).on('click', function () {
+            let newTitle = $(elementSelector.editTitleInput).val();
+            database.updateItem(listKey, itemKey, newTitle);
 
             location.reload(); // FIX
         });
     },
-    editItem: (arg1) => {
-        $(".edit-item").on('click', function (event) {
+
+    editItem: (listKey) => {
+        $(elementSelector.itemEditIcon).on('click', function (event) {
             templates.get('edit-item')
                 .then(function (template) {
                     let key = $(event.target).prev().prev().attr("item-key-attribute");
-                    database.getItem(arg1, key)
+                    database.getItem(listKey, key)
                         .then(function (item) {
                             let itemInfo = item.val();
-                            $("#main-board").html(template(itemInfo));
+                            $(elementSelector.dashboardMain).html(template(itemInfo));
                         })
                         .then(function () {
-                            dashBEvents.saveItem(arg1, key);
+                            dashBEvents.saveItem(listKey, key);
                         });
                 });
         });
     },
+
     listTitle: () => {
-        $('.list-title').on('click', function (event) {
+        $(elementSelector.listTitle).on('click', function (event) {
             event.preventDefault();
-            $(".active").removeClass("active");
+            $(elementSelector.activelistElement).removeClass("active");
             $(this).addClass("active");
             let selectedListKey = $(".active > a > span").attr("data-atribute");
 
@@ -94,8 +97,8 @@ let dashBEvents = {
                     templates.get('user-list')
                         .then(function (template) {
                             let listObject = { title: list.val()._title, items: items };
-                            $("#dashboard-welcome").addClass("hidden");
-                            $("#main-board").html(template(listObject));
+                            $(elementSelector.dashboardWelcome).addClass("hidden");
+                            $(elementSelector.dashboardMain).html(template(listObject));
                         })
                         .then(function () {
                             dashBEvents.btnAddItem(selectedListKey);
