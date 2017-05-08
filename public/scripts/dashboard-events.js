@@ -77,8 +77,8 @@ var dashBEvents = {
     itemTrash: (listKey) => {
         $(elementSelector.itemTrashIcon).on('click', function () {
             try {
-                let $itemElement = $this.prev();
-                validator.listItemHasKey($itemElement);
+                let $itemElement = $(this).prev();
+                validator.listItemHasKey($itemElement[0]);
 
                 let itemKey = $(this).prev().attr("item-key-attribute");
                 database.removeItem(listKey, itemKey);
