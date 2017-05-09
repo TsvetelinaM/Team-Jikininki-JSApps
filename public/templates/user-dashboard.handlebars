@@ -9,11 +9,12 @@
             <div class="navi">
                 <ul>
                     {{#each lists}}
-                    <li class="list-title">
-                        <a href="#">
+                    <li class="list-title row">
+                        <a class="col-xs-9" href="#">
                             <i class="{{this.glyphicon}}" aria-hidden="true"></i>
                             <span data-atribute="{{this.key}}" class="hidden-xs hidden-sm">{{this.title}}</span>
                         </a>
+                        <i class="glyphicon glyphicon-trash remove-list col-xs-2" aria-hidden="true"></i>
                     </li>
                     {{/each}}
                     <li id="add-list">

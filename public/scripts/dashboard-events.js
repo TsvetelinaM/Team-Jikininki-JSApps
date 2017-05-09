@@ -22,8 +22,11 @@ const dashBEvents = {
                 let newList = new List(listTitle)
                 database.pushList(newList);
 
-                // TODO FIX the redirection
-                context.refresh;
+                templates.get('list-title')
+                    .then(function (html) {
+                        $(".navi > ul li.list-title:last").append(html(newList));
+                        dashBEvents.listTitle(context);
+                    });
 
                 toastr.success("New list " + listTitle + " was added.");
             }
@@ -33,16 +36,17 @@ const dashBEvents = {
         });
     },
 
-    btnRemoveList: (listKey, context) => {
-        $('#remove-list').on('click', function () {
-            database
-                .removeList(listKey)
-                .then(function () {
-                    // TODO FIX the redirection
-                    context.load(context.path);
-                });
+    btnRemoveList: (listKey) => {
+        $('.remove-list').on('click', function () {
+            // database
+            //     .removeList(listKey)
+            //     .then(function () {
+            //         // TODO FIX the redirection
+            //         context.load(context.path);
+            //     });
 
             toastr.info("List successfully removed");
+            console.log("clicked");
         });
     },
 
@@ -57,7 +61,6 @@ const dashBEvents = {
                     })
                     .then(function () {
                         dashBEvents.btnAddItem(listKey);
-                        dashBEvents.btnRemoveList(listKey, context);
                         dashBEvents.checkboxTask(listKey);
                         dashBEvents.itemTrash(listKey);
                         dashBEvents.editItem(listKey);
@@ -197,6 +200,7 @@ const dashBEvents = {
             $(this).addClass("active");
             let selectedListKey = $(".active > a > span").attr("data-atribute");
 
+            dashBEvents.btnRemoveList(selectedListKey);
             dashBEvents.loadListItems(selectedListKey, context);
         });
     }
