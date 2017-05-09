@@ -12,35 +12,30 @@ body.pg-loaded > #container {
 }
 
 #container {
-    height: 100%;
+    height: 96%;
 }
 
 .page-header {
-    background-color: cadetblue;
-    padding: 20px;
-    margin: 0px;
+    display:block;
+    height:10%;
 }
 
-#footer {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    padding: 1rem;
-    background-color: cadetblue;
-    text-align: center;
-}
+ #footer_J {
+   display: block;
+   height: 8%;
+ }
 
 #btn-signout, #dashboard-button {
-    margin: 20px;
-    background-color: #ad85bc;
+    margin-top: 25px;
+    margin-right: 12px;
+    padding: 16px 25px;
+    background-color: #c699dc;
     color: #ffffff;
 }
 
 #log-buttons {
     margin: 20px;
 }
-
 
 .spinner {
   width: 40px;
@@ -51,6 +46,7 @@ body.pg-loaded > #container {
   -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
   animation: sk-rotateplane 1.2s infinite ease-in-out;
 }
+
 .navbar-brand {
   width: 100px;
   height: 100px;
@@ -59,14 +55,31 @@ body.pg-loaded > #container {
 }
 
 .container{
-  padding: 0px;
+  padding: 3px;
   width: 100%;
+  height: 100%;
 }
 
 #footer_J, nav, .container {
   background-image: url('../imgs/concrete_seamless/concrete_seamless.png');
   color:gray;
 }
+
+#footer_J {
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+main {
+  height:79%;
+  display:block;
+}
+
+div#main.container#dashboard   {
+  display: block;
+  height: 100%;
+}
+
 #fb-button {
   background-color: #6d84b4;
 }
@@ -78,10 +91,6 @@ body.pg-loaded > #container {
 }
 #tw-button:hover {
   background-color: #72B3FF;
-}
-
-.container {
-  height: 500px;
 }
 
 

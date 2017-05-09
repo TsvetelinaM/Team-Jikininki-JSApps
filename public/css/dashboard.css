@@ -1,4 +1,24 @@
 /*Main CSS*/
+
+.edit-item-form label {
+   font-size: 20px;
+}
+
+.edit-item-form input {
+    width: 75%;
+    height: 50px;
+    font-size: 19px;
+}
+
+.edit-item-form .save-item {
+    background-color: #b2d582;
+    border: 0px;
+    width: 15%;
+    height: 45px;
+    font-weight: bolder;
+    font-size: 20px;
+}
+
 input[type=checkbox] {
     margin-left: 5%;
     margin-right: 4%;
@@ -10,12 +30,28 @@ input[type=checkbox] {
 }
 
 #add-list {
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+    margin-top: 10px;
 }
+
 #input-add-list{
     color: black;
     width: 70%;
     height: 45px;
+}
+
+#btn-add-item, #btn-add-list {
+    background-color: #b2d582;
+    border: 0px;
+}
+
+#btn-add-list {
+    margin-left: 2%;
+}
+
+#remove-list {
+    background-color: #330033;
+    border-color: #330033;
 }
 
 /*Login Signup Page*/
@@ -68,6 +104,7 @@ li,ul{
     background-color: transparent;
     border: none;
     color: #fff;
+    font-weight: bolder;
 }
 
 .login-header .nav-tabs > li > a {
@@ -200,10 +237,8 @@ li,ul{
 
 #navigation {
     background: cadetblue;
-}
-
-#navigation {
-    padding: 0;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 .display-table {
@@ -378,23 +413,22 @@ header {
     text-decoration: none;
 }
 
-.navi i {
+.navi i, #edit-profile {
     margin-right: 15px;
-    color: #5584ff;
+    color: #ffffff;
 }
 
 .navi .active a {
-    background: cadetblue;
-    border-left: 5px solid springgreen;
+    background: #d8b2d8;
+    border-left: 5px solid #ffffff;
     padding-left: 15px;
 }
 
-.navi a:hover {
-    background: #ad85bc none repeat scroll 0 0;
-    border-left: 5px solid #5584ff;
+.navi a:hover, #edit-profile a:hover {
+    background: #6d00ac none repeat scroll 0 0;
+    border-left: 5px solid #d8b2d8;
     display: block;
     padding-left: 15px;
-    text-decoration: underline;
 }
 
 .navbar-default {
@@ -432,12 +466,11 @@ header {
 }
 
 .user-dashboard h1 {
-    color: #0e1a35;
+    color: #696969;
     font-size: 30px;
-    font-weight: 500;
+    font-weight: 600;
     margin: 0;
     padding: 21px 0;
-    text-decoration: underline;
 }
 .sales {
     background: #ffffff none repeat scroll 0 0;
@@ -490,12 +523,14 @@ header {
 /*Main CSS*/
 /*dashboard css*/
 #dashboard {
-  height: 500px;
+  height: 100%;
   border: 2px solid grey;
 }
 
 #navigation {
   background-image: url('../imgs/dark_embroidery/dark_embroidery.png');
+  background-color: hsla(300,100%,25%,0.3);
+    background-blend-mode: overlay;
   color: #FFFFCC;
 }
 
@@ -514,18 +549,23 @@ header {
 }
 .list-title {
   border:none;
+  font-weight: bolder;
 }
 
-#edit-profile{
+#edit-profile, #add-list{
   position:absolute;
   bottom:0px;
   width: 100%;
 }
 
+#add-list {
+    margin-bottom: 10%;
+}
+
 #dashboard-welcome {
     display: block;
     text-align: center;
-    margin-top: 19%;;
+    margin: 21% 19%;
 }
 @media only screen and (max-device-width: 767px) {
     .login-logo img {
@@ -569,7 +609,7 @@ header {
     }
     #navigation .navi a:hover,
     #navigation .navi .active a {
-        background: #8edb6b none repeat scroll 0 0;
+        background: #d8b2d8 none repeat scroll 0 0;
         border-left: none;
         display: block;
         padding-left: 20px;

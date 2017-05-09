@@ -4,7 +4,7 @@ const helpers = {
     loadingScreen: function () {
         window.loading_screen = window.pleaseWait({
             logo: './css/logo.png',
-            backgroundColor: '#5f9ea0',
+            backgroundColor: '#c699dc',
             loadingHtml: '<div class="spinner"></div>'
         });
         return window.loading_screen;

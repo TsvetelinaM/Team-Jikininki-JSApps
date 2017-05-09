@@ -20,12 +20,10 @@ const dashBEvents = {
                 validator.isStringEmptyOrWhitespace(listTitle);
 
                 let newList = new List(listTitle)
-                database.pushList(newList);
-
-                templates.get('list-title')
-                    .then(function (html) {
-                        $(".navi > ul li.list-title:last").append(html(newList));
-                        dashBEvents.listTitle(context);
+                database.pushList(newList)
+                    .then(function () {
+                        $(elementSelector.addListInput).val("");
+                        context.redirect('#/');
                     });
 
                 toastr.success("New list " + listTitle + " was added.");
@@ -36,17 +34,15 @@ const dashBEvents = {
         });
     },
 
-    btnRemoveList: (listKey) => {
-        $('.remove-list').on('click', function () {
-            // database
-            //     .removeList(listKey)
-            //     .then(function () {
-            //         // TODO FIX the redirection
-            //         context.load(context.path);
-            //     });
+    btnRemoveList: (listKey, context) => {
+        $('#remove-list').on('click', function () {
+            database
+                .removeList(listKey)
+                .then(function () {
+                    context.redirect('#/');
+                });
 
             toastr.info("List successfully removed");
-            console.log("clicked");
         });
     },
 
@@ -64,7 +60,7 @@ const dashBEvents = {
                         dashBEvents.checkboxTask(listKey);
                         dashBEvents.itemTrash(listKey);
                         dashBEvents.editItem(listKey);
-
+                        dashBEvents.btnRemoveList(listKey, context);
                     });
             });
     },
@@ -200,7 +196,6 @@ const dashBEvents = {
             $(this).addClass("active");
             let selectedListKey = $(".active > a > span").attr("data-atribute");
 
-            dashBEvents.btnRemoveList(selectedListKey);
             dashBEvents.loadListItems(selectedListKey, context);
         });
     }
