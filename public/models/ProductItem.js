@@ -1,9 +1,10 @@
 import Item from 'classItem';
 
 class ProductItem extends Item {
-    constructor(title, description, checked, quantity) {
-        super(title, description, checked);
+    constructor(title, checked, quantity) {
+        super(title, checked);
         this.quantity = quantity;
+        this.isGrocery = true;
     }
 
     get quantity() {
