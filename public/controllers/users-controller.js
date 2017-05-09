@@ -90,9 +90,11 @@ function login(context) {
                      context.redirect('#/dashboard');
                      location.reload();
                    });
+             } else {
+               context.redirect('#/dashboard');
+               location.reload();
              }
          });
-
 
         });
 
