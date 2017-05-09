@@ -11,8 +11,42 @@ import $ from 'jquery';
 import validator from 'validator';
 import 'jqueryUI';
 
-var dashBEvents = {
-    loadListItems: (listKey) => {
+const dashBEvents = {
+
+    btnAddList: (context) => {
+        $(elementSelector.addListButton).on('click', function () {
+            try {
+                let listTitle = $(elementSelector.addListInput).val();
+                validator.isStringEmptyOrWhitespace(listTitle);
+
+                let newList = new List(listTitle)
+                database.pushList(newList);
+
+                // TODO FIX the redirection
+                context.refresh;
+
+                toastr.success("New list " + listTitle + " was added.");
+            }
+            catch (err) {
+                toastr.error(err.name + ": " + err.message);
+            }
+        });
+    },
+
+    btnRemoveList: (listKey, context) => {
+        $('#remove-list').on('click', function () {
+            database
+                .removeList(listKey)
+                .then(function () {
+                    // TODO FIX the redirection
+                    context.load(context.path);
+                });
+
+            toastr.info("List successfully removed");
+        });
+    },
+
+    loadListItems: (listKey, context) => {
         database.getSingleList(listKey)
             .then(function (list) {
                 let items = list.val()._items;
@@ -23,6 +57,7 @@ var dashBEvents = {
                     })
                     .then(function () {
                         dashBEvents.btnAddItem(listKey);
+                        dashBEvents.btnRemoveList(listKey, context);
                         dashBEvents.checkboxTask(listKey);
                         dashBEvents.itemTrash(listKey);
                         dashBEvents.editItem(listKey);
@@ -31,20 +66,22 @@ var dashBEvents = {
             });
     },
 
-    btnAddList: () => {
-        $(elementSelector.addListButton).on('click', function () {
+    btnAddItem: (listKey) => {
+        $(elementSelector.addItemButton).on("click", function () {
             try {
-                let listTitle = $(elementSelector.addListInput).val();
-                validator.isStringEmptyOrWhitespace(listTitle);
+                const itemName = $(elementSelector.addItemInput).val();
+                validator.isStringEmptyOrWhitespace(itemName);
 
-                let newList = new List(listTitle)
-                database.pushList(newList);
+                const newItem = new TaskItem(itemName, false, "");
+                const newItemKey = database.pushItem(listKey, newItem).key;
+                $(elementSelector.addItemInput).val("");
 
-                location.reload(); // FIX
+                dashBEvents.loadListItems(listKey, itemName);
 
-                toastr.success("New list " + listTitle + " was added.");
+                toastr.success("New item " + itemName + " was added to list.");
             }
             catch (err) {
+                console.log(err);
                 toastr.error(err.name + ": " + err.message);
             }
         });
@@ -77,7 +114,6 @@ var dashBEvents = {
         $(elementSelector.itemCheckbox).on("click", function () {
             try {
                 let $this = $(this);
-                console.log($this);
                 validator.listItemHasKey($this[0]);
                 let itemKey = $this.attr("item-key-attribute");
 
@@ -106,27 +142,6 @@ var dashBEvents = {
         });
     },
 
-    btnAddItem: (listKey) => {
-        $(elementSelector.addItemButton).on("click", function () {
-            try {
-                const itemName = $(elementSelector.addItemInput).val();
-                validator.isStringEmptyOrWhitespace(itemName);
-
-                const newItem = new TaskItem(itemName, false, "");
-                const newItemKey = database.pushItem(listKey, newItem).key;
-                $(elementSelector.addItemInput).val("");
-
-                dashBEvents.loadListItems(listKey, itemName);
-
-                toastr.success("New item " + itemName + " was added to list.");
-            }
-            catch (err) {
-                console.log(err);
-                toastr.error(err.name + ": " + err.message);
-            }
-        });
-    },
-
     saveItem: (listKey, itemKey) => {
         $(elementSelector.itemSaveButton).on('click', function () {
             try {
@@ -138,7 +153,7 @@ var dashBEvents = {
 
                 database.updateItem(listKey, itemKey, newTitle, newDate);
 
-                location.reload(); // FIX
+                dashBEvents.loadListItems(listKey);
 
                 toastr.success("Task with ID: " + itemKey + " was saved.");
             }
@@ -163,7 +178,7 @@ var dashBEvents = {
                                 $(elementSelector.dashboardMain).html(template(itemInfo));
                             })
                             .then(function () {
-                                $("#datepicker").datepicker();
+                                $(elementSelector.editDateInput).datepicker();
                                 dashBEvents.saveItem(listKey, itemKey);
                             });
                     }
@@ -174,7 +189,7 @@ var dashBEvents = {
         });
     },
 
-    listTitle: () => {
+    listTitle: (context) => {
         $(elementSelector.listTitle).on('click', function (event) {
             event.preventDefault();
 
@@ -182,23 +197,7 @@ var dashBEvents = {
             $(this).addClass("active");
             let selectedListKey = $(".active > a > span").attr("data-atribute");
 
-            dashBEvents.loadListItems(selectedListKey);
-            // database.getSingleList(selectedListKey)
-            //     .then(function (list) {
-            //         let items = list.val()._items;
-            //         templates.get('user-list')
-            //             .then(function (template) {
-            //                 let listObject = { title: list.val()._title, items: items };
-            //                 $(elementSelector.dashboardWelcome).addClass("hidden");
-            //                 $(elementSelector.dashboardMain).html(template(listObject));
-            //             })
-            //             .then(function () {
-            //                 dashBEvents.btnAddItem(selectedListKey);
-            //                 dashBEvents.checkboxTask(selectedListKey);
-            //                 dashBEvents.itemTrash(selectedListKey);
-            //                 dashBEvents.editItem(selectedListKey);
-            //             });
-            //     });
+            dashBEvents.loadListItems(selectedListKey, context);
         });
     }
 };

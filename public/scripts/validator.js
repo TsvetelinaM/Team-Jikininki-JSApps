@@ -80,7 +80,7 @@ const validator = {
     },
 
     listItemHasKey(DOMelement) {
-        console.log(DOMelement);
+        // console.log(DOMelement);
         let hasKeyAttribute = DOMelement.hasAttribute("item-key-attribute"),
             keyAttributeIsNotNull = DOMelement.getAttribute("item-key-attribute") !== "";
 

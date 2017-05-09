@@ -166,10 +166,10 @@ function dashboard(context) {
             userData = { username: localStorage.username, lists: lists };
             context.$element().html(template(userData));
 
-            dashBEvenets.btnAddList();
+            dashBEvenets.btnAddList(context);
         })
         .then(function () {
-            dashBEvenets.listTitle();
+            dashBEvenets.listTitle(context);
         });
 }
 

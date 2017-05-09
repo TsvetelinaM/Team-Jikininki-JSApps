@@ -8,6 +8,9 @@
         <div class="col-md-4">
             <button id="btn-add-item" class="btn btn-success btn-lg"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add</button>
         </div>
+        <div class="col-md-2">
+            <button id="remove-list" class="btn btn-danger btn-lg">Remove list</button>
+        </div>
     </header>
 </div>
 <div class="user-dashboard">
@@ -16,37 +19,33 @@
     <div class="row">
         <div class="col-md-9 col-sm-8 col-xs-12 gutter">
             <ul id="items-list">
-                {{#if items}} 
-                    {{#each items}}
-                    <li>
-                        {{#if this._checked}}
-                        <div class="item row">
-                            {{!--See if @key is supported in other browsers--}}
-                            <h2 class="well">
-                                <span class="line-through"> {{this._title}} </span> 
-                                <input item-key-attribute="{{@key}}" class="checkbox-task" type="checkbox" checked="checked" /> 
-                                <span class="glyphicon glyphicon-trash item-trash" aria-hidden="true"></span> 
-                                <span class="glyphicon glyphicon-edit edit-item" aria-hidden="true"></span>
-                            </h2>
-                        </div>
-                        {{else}}
-                        <div class="item row">
-                            <h2 class="well">
-                                    {{#if this._dueDate}}
-                                        <span> {{this._title}} : {{this._dueDate}} </span>
-                                    {{else}}
-                                        <span> {{this._title}} </span>
-                                    {{/if}}
-                                <input item-key-attribute="{{@key}}" class="checkbox-task" type="checkbox" /> 
-                                <span class="glyphicon glyphicon-trash item-trash" aria-hidden="true"></span>
-                                <span class="glyphicon glyphicon-edit edit-item" aria-hidden="true"></span>
-                            </h2>
-                        </div>
-                        {{/if}}
-                    </li>
-                    {{/each}} 
-                {{else}}
-                    <div>No items added to this list</div>
+                {{#if items}} {{#each items}}
+                <li>
+                    {{#if this._checked}}
+                    <div class="item row">
+                        {{!--See if @key is supported in other browsers--}}
+                        <h2 class="well">
+                            <span class="line-through"> {{this._title}} </span>
+                            <input item-key-attribute="{{@key}}" class="checkbox-task" type="checkbox" checked="checked" />
+                            <span class="glyphicon glyphicon-trash item-trash" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-edit edit-item" aria-hidden="true"></span>
+                        </h2>
+                    </div>
+                    {{else}}
+                    <div class="item row">
+                        <h2 class="well">
+                            {{#if this._dueDate}}
+                            <span> {{this._title}} : {{this._dueDate}} </span> {{else}}
+                            <span> {{this._title}} </span> {{/if}}
+                            <input item-key-attribute="{{@key}}" class="checkbox-task" type="checkbox" />
+                            <span class="glyphicon glyphicon-trash item-trash" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-edit edit-item" aria-hidden="true"></span>
+                        </h2>
+                    </div>
+                    {{/if}}
+                </li>
+                {{/each}} {{else}}
+                <div>No items added to this list</div>
                 {{/if}}
             </ul>
         </div>
