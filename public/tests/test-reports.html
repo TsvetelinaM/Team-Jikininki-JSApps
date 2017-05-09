@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../libs/mocha/mocha.css">
+    </head>
+    <body>
+        <!-- ... -->
+        <div id="mocha"></div>
+        <!-- include mocha.js and chai.js -->
+        <script src="../libs/systemjs/dist/system.js"></script>
+        <script src="./system-config.js"></script>
+        <script src="../libs/mocha/mocha.js"></script>
+        <script src="../libs/chai/chai.js"></script>
+        <script>
+            mocha.setup('bdd');
+            expect = chai.expect;
+        </script>
+
+        <!-- import javascript files and test files -->
+        <script>
+            System.import('test')
+                .then(() => mocha.run());
+        </script>
+    </body>
+
+</html>
