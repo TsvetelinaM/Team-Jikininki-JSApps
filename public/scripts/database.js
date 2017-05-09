@@ -6,7 +6,7 @@ const database = {
         return firebase.auth().createUserWithEmailAndPassword(email, password);
     },
 
-    pushUser: function (user) {
+    pushData: function (user) {
         return firebase.database().ref('users').push(user);
     },
     signInUser: function (email, password) {
@@ -21,9 +21,10 @@ const database = {
         return firebase.database().ref('lists/' + localStorage.uid + '/' + key).once('value');
     },
     pushList: function (list) {
-        return firebase.database()
+      return   firebase.database()
             .ref('lists/' + localStorage.uid)
-            .push(list)
+            .push(list);
+
     },
     removeList: function (listKey) {
         return firebase.database()

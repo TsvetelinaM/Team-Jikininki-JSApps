@@ -1,5 +1,6 @@
 import List from 'classList';
 import TaskItem from 'classTaskItem';
+import ProductItem from 'classProductItem';
 import { setLocalStorage } from 'localStorage';
 import database from 'database';
 
@@ -45,7 +46,7 @@ class User {
 
     add(context) {
         //adding user in the firebase DB
-        database.pushUser(new User(this.fullname, this.username, this.email, this.password));
+        database.pushData(new User(this.fullname, this.username, this.email, this.password));
         database.createUser(this.email, this.password)
             .then(() => {
                 //setting the displayName of the currentUser
@@ -61,17 +62,26 @@ class User {
                 homeList.glyphicon = "glyphicon glyphicon-home";
                 homeList.addItem(new TaskItem('Example item', false, ""));
 
+
+
                 // Adding shopping list
                 const shoppingList = new List("Shopping list");
-                homeList.description = "A list for stuff to buy";
+                shoppingList.description = "A list for stuff to buy";
+                shoppingList.glyphicon = "glyphicon glyphicon-shopping-cart";
+                shoppingList.addItem(new ProductItem('Example grocery item', false, 1));
 
                 database
-                    .pushList(homeList)
+                    .pushList(shoppingList)
                     .then(() => {
-                        // Reloading the page to dashboard
-                        context.redirect('#/dashboard');
+                      database
+                          .pushList(homeList);
+
                     })
-                    .catch(err => { console.log(err) });
+                      .then(() => {
+                      // Reloading the page to dashboard
+                      context.redirect('#/dashboard');
+                    });
+
             })
             .catch(err => { console.log(err) });
     }
