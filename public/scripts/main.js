@@ -23,7 +23,7 @@ import 'bootstrap';
         firebase.auth().onAuthStateChanged(function(user) {
             if (localStorage.uid) {
                 // User is signed in.
-                var screen = helpers.loadingScreen();
+                const screen = helpers.loadingScreen();
                 app.run('#/dashboard');
 
                 console.log(user);
@@ -36,7 +36,7 @@ import 'bootstrap';
                 screen.finish();
             } else {
                 // No user is signed in.
-                var screen = helpers.loadingScreen();
+                const screen = helpers.loadingScreen();
                 app.run('#/');
 
                 $('#btn-signout').addClass('hidden');

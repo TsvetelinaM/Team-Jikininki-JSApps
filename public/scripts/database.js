@@ -74,6 +74,16 @@ const database = {
                     "_dueDate": dueDate
                 });
             });
+    },
+    updateProdItem: function (listKey, itemKey, title, quantity) {
+        return firebase.database()
+            .ref('lists/' + localStorage.uid + '/' + listKey + '/_items/' + itemKey)
+            .once('value', function (item) {
+                item.ref.update({
+                    "_title": title,
+                    "_quantity": quantity
+                });
+            });
     }
 };
 

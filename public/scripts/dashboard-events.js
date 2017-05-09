@@ -68,16 +68,28 @@ const dashBEvents = {
     btnAddItem: (listKey) => {
         $(elementSelector.addItemButton).on("click", function () {
             try {
-                const itemName = $(elementSelector.addItemInput).val();
-                validator.isStringEmptyOrWhitespace(itemName);
+                database.getSingleList(listKey)
+                    .then(function (list) {
+                        const listTitle = list.val()._title;
 
-                const newItem = new TaskItem(itemName, false, "");
-                const newItemKey = database.pushItem(listKey, newItem).key;
-                $(elementSelector.addItemInput).val("");
+                        const itemName = $(elementSelector.addItemInput).val();
+                        validator.isStringEmptyOrWhitespace(itemName);
+                        let newItem;
+                        if (listTitle.includes("Shopping list")) {
+                            newItem = new ProductItem(itemName, false, 1);
+                        } else {
+                            newItem = new TaskItem(itemName, false, "");
+                        }
 
-                dashBEvents.loadListItems(listKey, itemName);
+                        database.pushItem(listKey, newItem)
+                            .then(function () {
+                                $(elementSelector.addItemInput).val("");
 
-                toastr.success("New item " + itemName + " was added to list.");
+                                dashBEvents.loadListItems(listKey, itemName);
+
+                                toastr.success("New item " + itemName + " was added to list.");
+                            });
+                    });
             }
             catch (err) {
                 console.log(err);
@@ -147,14 +159,18 @@ const dashBEvents = {
                 let newTitle = $(elementSelector.editTitleInput).val();
                 validator.isStringEmptyOrWhitespace(newTitle);
 
-                let newDate = $(elementSelector.editDateInput).val();
-                validator.isEmptyOrWhitespace(newDate);
+               let newValue = $(elementSelector.editDateInput).val() || $(elementSelector.editQuantInput).val();
+                validator.isEmptyOrWhitespace(newValue);
 
-                database.updateItem(listKey, itemKey, newTitle, newDate);
+               if ($(elementSelector.editDateInput).val()) {
+                  database.updateItem(listKey, itemKey, newTitle, newValue);
+                } else if($(elementSelector.editQuantInput).val()) {
+                  database.updateProdItem(listKey, itemKey, newTitle, newValue);
+                };
 
-                dashBEvents.loadListItems(listKey);
+               dashBEvents.loadListItems(listKey);
 
-                toastr.success("Task with ID: " + itemKey + " was saved.");
+               toastr.success("Task with ID: " + itemKey + " was saved.");
             }
             catch (err) {
                 toastr.error(err.name + ": " + err.message);

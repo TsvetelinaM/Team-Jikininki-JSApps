@@ -150,9 +150,9 @@ function signup(context) {
                 validator.isEmailValid(email);
 
                 let passHash = CryptoJS.SHA1(password).toString();
-                //let passHash = password;
 
                 let user = new User(fullname, username, email, passHash);
+                
                 user.add(context);
 
                 toastr.success("You have been successfully signed up!");
@@ -182,13 +182,7 @@ function dashboard(context) {
     templates.get('user-dashboard')
         .then(function (resTemplate) {
             template = resTemplate;
-            // firebase.database().ref('lists/' + localStorage.uid).on('value', (data) => {
-            //     if (data.val() === null || data.val() === undefined) {
-            //         let firstUserList = new List('Test01', 'Test01', 'Test01');
-            //         firstUserList.addItem(new Item('title', false));
-            //         firebase.database().ref('lists/' + localStorage.uid).push(firstUserList);
-            //     }
-            // });
+            
             return database.getLists();
         })
         .then(function (data) {
@@ -197,7 +191,7 @@ function dashboard(context) {
             let keys = Object.keys(resultLists);
             keys.forEach(key => {
                 let list = resultLists[key];
-                lists.push({ key: key, title: list._title, glyphicon: list._glyphicon }); // this is not how getters work
+                lists.push({ key: key, title: list._title, glyphicon: list._glyphicon });
             });
             return lists;
         })
