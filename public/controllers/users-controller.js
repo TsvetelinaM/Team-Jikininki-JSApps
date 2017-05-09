@@ -11,6 +11,9 @@ import validator from 'validator';
 import User from 'classUser';
 import Item from 'classItem';
 import List from 'classList';
+import TaskItem from 'classTaskItem';
+import ProductItem from 'classProductItem';
+
 
 // DOM manipulation
 import * as templates from 'templates';
@@ -56,7 +59,39 @@ function login(context) {
               });
             };
          });
-        context.redirect('#/dashboard');
+
+         firebase.database().ref('lists/' + localStorage.uid).once('value')
+          .then ((data) => {
+             if (data.val() === null || data.val() === undefined) {
+               // Adding the Home list for the user
+               const homeList = new List("Home");
+               homeList.description = "A list with home tasks";
+               homeList.glyphicon = "glyphicon glyphicon-home";
+               homeList.addItem(new TaskItem('Example item', false, ""));
+
+
+
+               // Adding shopping list
+               const shoppingList = new List("Shopping list");
+               shoppingList.description = "A list for stuff to buy";
+               shoppingList.glyphicon = "glyphicon glyphicon-shopping-cart";
+               shoppingList.addItem(new ProductItem('Example grocery item', false, 1));
+
+               database
+                   .pushList(shoppingList)
+                   .then(() => {
+                     database
+                         .pushList(homeList);
+
+                   })
+                     .then(() => {
+                     // Reloading the page to dashboard
+                     context.redirect('#/dashboard');
+                   });
+             }
+         });
+
+
         });
 
         $(elementSelector.loginButton).on('click', function () {
