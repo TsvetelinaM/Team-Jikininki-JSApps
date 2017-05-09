@@ -150,16 +150,16 @@ button.toast-close-button {
   background-color: #030303;
 }
 .toast-success {
-  background-color: #51a351;
+  background-color: #b2d582;
 }
 .toast-error {
   background-color: #bd362f;
 }
 .toast-info {
-  background-color: #2f96b4;
+  background-color: #b2b2ff;
 }
 .toast-warning {
-  background-color: #f89406;
+  background-color: #ffff4c;
 }
 .toast-progress {
   position: absolute;
