@@ -33,7 +33,7 @@
                         <div class="item row">
                             <h2 class="well">
                                 {{#if this.isGrocery}}
-                                        <span> {{this._title}} : {{this.quantity}} </span>
+                                        <span> {{this._title}} : {{this._quantity}} </span>
                                  {{else}}
                                     {{#if this._dueDate}}
                                         <span> {{this._title}} : {{this._dueDate}} </span>
@@ -54,6 +54,10 @@
                     <div>No items added to this list</div>
                 {{/if}}
             </ul>
+            <!-- Your send button code -->
+          {{#if this.isGrocery}}
+              <div class="fb-send" data-href="https://jikininki-b48ae.firebaseapp.com/#/dashboard"></div>
+          {{/if}}
         </div>
     </div>
 </div>
