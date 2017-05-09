@@ -62,6 +62,7 @@ function login(context) {
 
          firebase.database().ref('lists/' + localStorage.uid).once('value')
           .then ((data) => {
+            console.log(data.val());
              if (data.val() === null || data.val() === undefined) {
                // Adding the Home list for the user
                const homeList = new List("Home");
@@ -87,6 +88,7 @@ function login(context) {
                      .then(() => {
                      // Reloading the page to dashboard
                      context.redirect('#/dashboard');
+                     location.reload();
                    });
              }
          });
